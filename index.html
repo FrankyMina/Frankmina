@@ -64,11 +64,67 @@
 
     .nav-links a:hover { color: var(--fg); }
 
+    /* ── HAMBURGER ── */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      padding: 4px;
+      background: none;
+      border: none;
+    }
+
+    .hamburger span {
+      display: block;
+      width: 22px;
+      height: 1px;
+      background: var(--fg);
+      transition: transform 0.3s ease, opacity 0.3s ease;
+      transform-origin: center;
+    }
+
+    /* Hamburger animado a X cuando está abierto */
+    .hamburger.open span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
+
+    /* ── MOBILE MENU ── */
+    .mobile-menu {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      z-index: 99;
+      background: var(--bg);
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 40px;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .mobile-menu.open {
+      display: flex;
+      opacity: 1;
+    }
+
+    .mobile-menu a {
+      font-family: 'Playfair Display', serif;
+      font-size: 36px;
+      font-weight: 400;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .mobile-menu a:hover { color: var(--fg); }
+
     /* ── STATUS BAR ── */
     .status-bar {
       position: fixed;
       top: 84px; left: 0; right: 0;
-      z-index: 99;
+      z-index: 98;
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -77,7 +133,7 @@
       border-bottom: 1px solid var(--border);
     }
 
-    /* ── AVAILABLE — con animación checkmark ── */
+    /* ── AVAILABLE ── */
     .status-available {
       display: flex;
       align-items: center;
@@ -91,9 +147,7 @@
       transition: color 0.2s;
     }
 
-    .status-available:hover {
-      color: var(--fg);
-    }
+    .status-available:hover { color: var(--fg); }
 
     .dot {
       width: 6px;
@@ -109,7 +163,6 @@
       50%       { opacity: 0.4; transform: scale(0.85); }
     }
 
-    /* Checkmark SVG — oculto por default */
     .check-icon {
       display: inline-flex;
       align-items: center;
@@ -126,7 +179,6 @@
       flex-shrink: 0;
     }
 
-    /* El trazo del checkmark se dibuja al hacer hover */
     .check-icon svg path {
       stroke: var(--green);
       stroke-width: 2;
@@ -138,16 +190,10 @@
       transition: stroke-dashoffset 0.35s ease 0.15s;
     }
 
-    .status-available:hover .check-icon {
-      width: 18px;
-      opacity: 1;
-    }
+    .status-available:hover .check-icon { width: 18px; opacity: 1; }
+    .status-available:hover .check-icon svg path { stroke-dashoffset: 0; }
 
-    .status-available:hover .check-icon svg path {
-      stroke-dashoffset: 0;
-    }
-
-    /* ── CLOCKS ── */
+    /* ── CLOCKS — desktop ── */
     .clocks {
       display: flex;
       gap: 32px;
@@ -183,11 +229,7 @@
       white-space: nowrap;
     }
 
-    .clock-item:hover .city-long {
-      max-width: 160px;
-      opacity: 1;
-    }
-
+    .clock-item:hover .city-long { max-width: 160px; opacity: 1; }
     .clock-item:hover .clock-city { opacity: 0.8; }
 
     .clock-time {
@@ -230,7 +272,7 @@
 
     h1 {
       font-family: 'Playfair Display', serif;
-      font-size: clamp(52px, 7vw, 96px);
+      font-size: clamp(42px, 7vw, 96px);
       font-weight: 400;
       line-height: 1.05;
       letter-spacing: -0.02em;
@@ -300,13 +342,79 @@
       to { opacity: 1; transform: translateY(0); }
     }
 
-    /* ── RESPONSIVE ── */
-    @media (max-width: 640px) {
-      nav { padding: 24px 24px; }
-      .status-bar { padding: 10px 24px; top: 76px; }
-      .hero { padding: 180px 24px 60px; }
-      .clocks { gap: 16px; }
-      .hero-cta { flex-direction: column; align-items: flex-start; gap: 20px; }
+    /* ════════════════════════════
+       MÓVIL — max 768px
+    ════════════════════════════ */
+    @media (max-width: 768px) {
+
+      /* Nav */
+      nav {
+        padding: 24px;
+      }
+
+      .nav-links { display: none; }
+      .hamburger { display: flex; }
+
+      /* Status bar */
+      .status-bar {
+        top: 76px;
+        padding: 10px 24px;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+      }
+
+      /* Clocks apilados en móvil — sin animación de expansión */
+      .clocks {
+        flex-direction: column;
+        gap: 6px;
+        width: 100%;
+      }
+
+      .clock-item {
+        justify-content: space-between;
+        width: 100%;
+      }
+
+      /* En móvil mostramos nombre completo, sin hover */
+      .city-short { display: none; }
+
+      .city-long {
+        max-width: 200px !important;
+        opacity: 1 !important;
+        transition: none !important;
+      }
+
+      .clock-city {
+        opacity: 0.6 !important;
+      }
+
+      /* Hero */
+      .hero {
+        padding: 220px 24px 60px;
+        max-width: 100%;
+      }
+
+      h1 {
+        font-size: clamp(38px, 10vw, 56px);
+      }
+
+      .hero-sub {
+        font-size: 15px;
+        max-width: 100%;
+      }
+
+      .hero-cta {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 20px;
+      }
+
+      .btn-primary {
+        width: 100%;
+        text-align: center;
+        padding: 16px 28px;
+      }
     }
   </style>
 </head>
@@ -322,12 +430,22 @@
       <li><a href="#about">About</a></li>
       <li><a href="mailto:hola@frankmina.com">Contact</a></li>
     </ul>
+    <button class="hamburger" id="hamburger" aria-label="Menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
   </nav>
+
+  <!-- MOBILE MENU -->
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="#cases" onclick="closeMenu()">Cases</a>
+    <a href="#about" onclick="closeMenu()">About</a>
+    <a href="mailto:hola@frankmina.com" onclick="closeMenu()">Contact</a>
+  </div>
 
   <!-- STATUS BAR -->
   <div class="status-bar">
-
-    <!-- Disponibilidad con checkmark animado -->
     <div class="status-available">
       <span class="dot"></span>
       Available for new projects
@@ -337,34 +455,28 @@
         </svg>
       </span>
     </div>
-
-    <!-- Relojes con expansión de ciudad -->
     <div class="clocks">
-
       <div class="clock-item">
         <span class="clock-city">
           <span class="city-short">CDMX</span>
-          <span class="city-long">&nbsp;· Ciudad de México</span>
+          <span class="city-long">Ciudad de México</span>
         </span>
         <span class="clock-time" id="clock-cdmx">--:--</span>
       </div>
-
       <div class="clock-item">
         <span class="clock-city">
           <span class="city-short">MIA</span>
-          <span class="city-long">&nbsp;· Miami, Florida</span>
+          <span class="city-long">Miami, Florida</span>
         </span>
         <span class="clock-time" id="clock-mia">--:--</span>
       </div>
-
       <div class="clock-item">
         <span class="clock-city">
           <span class="city-short">LAX</span>
-          <span class="city-long">&nbsp;· Los Angeles, CA</span>
+          <span class="city-long">Los Angeles, CA</span>
         </span>
         <span class="clock-time" id="clock-lax">--:--</span>
       </div>
-
     </div>
   </div>
 
@@ -376,7 +488,7 @@
       people <em>actually</em> use.
     </h1>
     <p class="hero-sub fade-in">
-        Shaping digital products from Mexico City — UX/UI design, digital services, web apps, platforms & AI-driven experiences.
+      Shaping digital products from Mexico City — UX/UI design, digital services, web apps, platforms & AI-driven experiences.
     </p>
     <div class="hero-cta fade-in">
       <a href="#cases" class="btn-primary">View Cases</a>
@@ -387,27 +499,40 @@
   </section>
 
   <script>
+    // ── Relojes ──
     function updateClocks() {
       const now = new Date();
-
       document.getElementById('clock-cdmx').textContent = new Intl.DateTimeFormat('en', {
         timeZone: 'America/Mexico_City',
         hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false
       }).format(now);
-
       document.getElementById('clock-mia').textContent = new Intl.DateTimeFormat('en', {
         timeZone: 'America/New_York',
         hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false
       }).format(now);
-
       document.getElementById('clock-lax').textContent = new Intl.DateTimeFormat('en', {
         timeZone: 'America/Los_Angeles',
         hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false
       }).format(now);
     }
-
     updateClocks();
     setInterval(updateClocks, 1000);
+
+    // ── Hamburger menu ──
+    const hamburger = document.getElementById('hamburger');
+    const mobileMenu = document.getElementById('mobileMenu');
+
+    hamburger.addEventListener('click', () => {
+      hamburger.classList.toggle('open');
+      mobileMenu.classList.toggle('open');
+      document.body.style.overflow = mobileMenu.classList.contains('open') ? 'hidden' : '';
+    });
+
+    function closeMenu() {
+      hamburger.classList.remove('open');
+      mobileMenu.classList.remove('open');
+      document.body.style.overflow = '';
+    }
   </script>
 </body>
 </html>
