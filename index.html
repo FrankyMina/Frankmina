@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Frank Miranda — Product Designer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=DM+Mono:wght@300;400&family=DM+Sans:wght@300;400&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:     #0a0a08;
+      --fg:     #f0ede6;
+      --muted:  #6b6860;
+      --gold:   #c8a94a;
+      --green:  #4caf76;
+      --border: rgba(240, 237, 230, 0.08);
+    }
+
+    html, body {
+      height: 100%;
+      background: var(--bg);
+      color: var(--fg);
+      font-family: 'DM Sans', sans-serif;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 28px 48px;
+    }
+
+    .nav-logo img {
+      height: 28px;
+      width: auto;
+      opacity: 0.95;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 36px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      font-weight: 300;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+
+    .nav-links a:hover { color: var(--fg); }
+
+    /* ── STATUS BAR ── */
+    .status-bar {
+      position: fixed;
+      top: 84px; left: 0; right: 0;
+      z-index: 99;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 48px;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+
+    /* ── AVAILABLE — con animación checkmark ── */
+    .status-available {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      cursor: default;
+      transition: color 0.2s;
+    }
+
+    .status-available:hover {
+      color: var(--fg);
+    }
+
+    .dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--green);
+      flex-shrink: 0;
+      animation: pulse 2.4s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50%       { opacity: 0.4; transform: scale(0.85); }
+    }
+
+    /* Checkmark SVG — oculto por default */
+    .check-icon {
+      display: inline-flex;
+      align-items: center;
+      overflow: hidden;
+      width: 0;
+      opacity: 0;
+      transition: width 0.3s ease, opacity 0.3s ease;
+      margin-left: 2px;
+    }
+
+    .check-icon svg {
+      width: 13px;
+      height: 13px;
+      flex-shrink: 0;
+    }
+
+    /* El trazo del checkmark se dibuja al hacer hover */
+    .check-icon svg path {
+      stroke: var(--green);
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      fill: none;
+      stroke-dasharray: 20;
+      stroke-dashoffset: 20;
+      transition: stroke-dashoffset 0.35s ease 0.15s;
+    }
+
+    .status-available:hover .check-icon {
+      width: 18px;
+      opacity: 1;
+    }
+
+    .status-available:hover .check-icon svg path {
+      stroke-dashoffset: 0;
+    }
+
+    /* ── CLOCKS ── */
+    .clocks {
+      display: flex;
+      gap: 32px;
+    }
+
+    .clock-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+      cursor: default;
+    }
+
+    .clock-city {
+      display: inline-flex;
+      overflow: hidden;
+      white-space: nowrap;
+      opacity: 0.5;
+      text-transform: uppercase;
+    }
+
+    .city-short { display: inline-block; }
+
+    .city-long {
+      display: inline-block;
+      max-width: 0;
+      overflow: hidden;
+      opacity: 0;
+      transition: max-width 0.45s ease, opacity 0.35s ease;
+      white-space: nowrap;
+    }
+
+    .clock-item:hover .city-long {
+      max-width: 160px;
+      opacity: 1;
+    }
+
+    .clock-item:hover .clock-city { opacity: 0.8; }
+
+    .clock-time {
+      color: var(--fg);
+      transition: color 0.2s;
+    }
+
+    .clock-item:hover .clock-time { color: var(--gold); }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 180px 48px 80px;
+      max-width: 960px;
+    }
+
+    .hero-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      font-weight: 300;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 32px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .hero-label::before {
+      content: '';
+      display: block;
+      width: 24px;
+      height: 1px;
+      background: var(--gold);
+    }
+
+    h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(52px, 7vw, 96px);
+      font-weight: 400;
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+      color: var(--fg);
+      margin-bottom: 24px;
+    }
+
+    h1 em {
+      font-style: italic;
+      color: var(--gold);
+    }
+
+    .hero-sub {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 16px;
+      font-weight: 300;
+      color: var(--muted);
+      line-height: 1.6;
+      max-width: 580px;
+      margin-bottom: 48px;
+    }
+
+    .hero-cta {
+      display: flex;
+      align-items: center;
+      gap: 32px;
+    }
+
+    .btn-primary {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--bg);
+      background: var(--fg);
+      text-decoration: none;
+      padding: 14px 28px;
+      transition: background 0.2s, color 0.2s;
+    }
+
+    .btn-primary:hover { background: var(--gold); }
+
+    .btn-secondary {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-secondary:hover { color: var(--fg); }
+    .btn-secondary span { font-size: 14px; }
+
+    /* ── FADE IN ── */
+    .fade-in { opacity: 0; transform: translateY(18px); animation: fadeUp 0.8s ease forwards; }
+    .fade-in:nth-child(1) { animation-delay: 0.1s; }
+    .fade-in:nth-child(2) { animation-delay: 0.25s; }
+    .fade-in:nth-child(3) { animation-delay: 0.4s; }
+    .fade-in:nth-child(4) { animation-delay: 0.55s; }
+
+    @keyframes fadeUp {
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 640px) {
+      nav { padding: 24px 24px; }
+      .status-bar { padding: 10px 24px; top: 76px; }
+      .hero { padding: 180px 24px 60px; }
+      .clocks { gap: 16px; }
+      .hero-cta { flex-direction: column; align-items: flex-start; gap: 20px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a class="nav-logo" href="/">
+      <img src="FM_Logo_bco.png" alt="Frank Miranda logo" />
+    </a>
+    <ul class="nav-links">
+      <li><a href="#cases">Cases</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="mailto:hola@frankmina.com">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- STATUS BAR -->
+  <div class="status-bar">
+
+    <!-- Disponibilidad con checkmark animado -->
+    <div class="status-available">
+      <span class="dot"></span>
+      Available for new projects
+      <span class="check-icon">
+        <svg viewBox="0 0 13 13" xmlns="http://www.w3.org/2000/svg">
+          <path d="M2 6.5 L5.5 10 L11 3.5" />
+        </svg>
+      </span>
+    </div>
+
+    <!-- Relojes con expansión de ciudad -->
+    <div class="clocks">
+
+      <div class="clock-item">
+        <span class="clock-city">
+          <span class="city-short">CDMX</span>
+          <span class="city-long">&nbsp;· Ciudad de México</span>
+        </span>
+        <span class="clock-time" id="clock-cdmx">--:--</span>
+      </div>
+
+      <div class="clock-item">
+        <span class="clock-city">
+          <span class="city-short">MIA</span>
+          <span class="city-long">&nbsp;· Miami, Florida</span>
+        </span>
+        <span class="clock-time" id="clock-mia">--:--</span>
+      </div>
+
+      <div class="clock-item">
+        <span class="clock-city">
+          <span class="city-short">LAX</span>
+          <span class="city-long">&nbsp;· Los Angeles, CA</span>
+        </span>
+        <span class="clock-time" id="clock-lax">--:--</span>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- HERO -->
+  <section class="hero">
+    <p class="hero-label fade-in">Product Designer & Digital Builder</p>
+    <h1 class="fade-in">
+      Designing products<br />
+      people <em>actually</em> use.
+    </h1>
+    <p class="hero-sub fade-in">
+        Shaping digital products from Mexico City — UX/UI design, digital services, web apps, platforms & AI-driven experiences.
+    </p>
+    <div class="hero-cta fade-in">
+      <a href="#cases" class="btn-primary">View Cases</a>
+      <a href="mailto:hola@frankmina.com" class="btn-secondary">
+        Let's talk <span>↗</span>
+      </a>
+    </div>
+  </section>
+
+  <script>
+    function updateClocks() {
+      const now = new Date();
+
+      document.getElementById('clock-cdmx').textContent = new Intl.DateTimeFormat('en', {
+        timeZone: 'America/Mexico_City',
+        hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false
+      }).format(now);
+
+      document.getElementById('clock-mia').textContent = new Intl.DateTimeFormat('en', {
+        timeZone: 'America/New_York',
+        hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false
+      }).format(now);
+
+      document.getElementById('clock-lax').textContent = new Intl.DateTimeFormat('en', {
+        timeZone: 'America/Los_Angeles',
+        hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false
+      }).format(now);
+    }
+
+    updateClocks();
+    setInterval(updateClocks, 1000);
+  </script>
+</body>
+</html>
