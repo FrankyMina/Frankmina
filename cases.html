@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cases — Frank Miranda</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=DM+Mono:wght@300;400&family=DM+Sans:wght@300;400;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:          #0a0a08;
+      --fg:          #f0ede6;
+      --muted:       #6b6860;
+      --gold:        #c8a94a;
+      --green:       #4caf76;
+      --cases-bg:    #ffffff;
+      --cases-fg:    #0a0a08;
+      --cases-muted: #999590;
+      --card-bg:     #f0efed;
+      --divider:     #e8e6e2;
+    }
+
+    html, body {
+      background: var(--cases-bg);
+      color: var(--cases-fg);
+      font-family: 'DM Sans', sans-serif;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    /* ══════════════════════
+       NAV — fijo
+    ══════════════════════ */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 28px 48px;
+      background: #ffffff;
+      border-bottom: 1px solid #e8e6e2;
+    }
+
+    .nav-logo img { height: 28px; width: auto; opacity: 0.95; filter: invert(1); }
+
+    .nav-links { display: flex; gap: 36px; list-style: none; }
+
+    .nav-links a {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      font-weight: 300;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #999590;
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+
+    .nav-links a:hover { color: #0a0a08; }
+    .nav-links a.active { color: #0a0a08; }
+
+    /* ── HAMBURGER ── */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      padding: 4px;
+      background: none;
+      border: none;
+    }
+
+    .hamburger span {
+      display: block;
+      width: 22px;
+      height: 1px;
+      background: #0a0a08;
+      transition: transform 0.3s ease, opacity 0.3s ease;
+      transform-origin: center;
+    }
+
+    .hamburger.open span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
+
+    /* ── MOBILE MENU ── */
+    .mobile-menu {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      z-index: 99;
+      background: #ffffff;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 40px;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .mobile-menu.open { display: flex; opacity: 1; }
+
+    .mobile-menu a {
+      font-family: 'Playfair Display', serif;
+      font-size: 36px;
+      color: #999590;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .mobile-menu a:hover { color: #0a0a08; }
+
+    /* ══════════════════════
+       CASES
+    ══════════════════════ */
+    .cases {
+      padding: 140px 48px 100px;
+    }
+
+    .cases-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-bottom: 24px;
+      margin-bottom: 48px;
+      border-bottom: 1px solid var(--divider);
+    }
+
+    .cases-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--cases-muted);
+    }
+
+    .cases-count {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      color: var(--cases-muted);
+    }
+
+    /* Grid: BBVA 2fr, Dondé 1fr, Wanacar 1fr */
+    .cases-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      gap: 24px;
+      align-items: start;
+    }
+
+    .case-item {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .case-thumb {
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      overflow: hidden;
+      background: var(--card-bg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+
+    /* BBVA sin padding — imagen a sangre */
+    .case-thumb--bleed {
+      padding: 0;
+    }
+
+    .case-thumb--bleed img {
+      object-fit: cover;
+    }
+
+    .case-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+      transition: transform 0.5s ease;
+    }
+
+    .case-item:hover .case-thumb img { transform: scale(1.04); }
+
+    .case-meta {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      padding: 0 2px;
+    }
+
+    .case-title {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--cases-fg);
+      letter-spacing: -0.01em;
+    }
+
+    .case-desc {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13px;
+      font-weight: 400;
+      color: var(--cases-muted);
+      line-height: 1.5;
+    }
+
+    /* ══════════════════════
+       MÓVIL
+    ══════════════════════ */
+    @media (max-width: 768px) {
+      nav { padding: 20px 24px; }
+      .nav-links { display: none; }
+      .hamburger { display: flex; }
+
+      .cases { padding: 100px 24px 80px; }
+      .cases-grid { grid-template-columns: 1fr; gap: 40px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a class="nav-logo" href="index.html">
+      <img src="FM_logo_bco.png" alt="Frank Miranda logo" />
+    </a>
+    <ul class="nav-links">
+      <li><a href="cases.html" class="active">Cases</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="#" id="nav-contact">Contact</a></li>
+    </ul>
+    <button class="hamburger" id="hamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <!-- MOBILE MENU -->
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="cases.html" onclick="closeMenu()">Cases</a>
+    <a href="about.html" onclick="closeMenu()">About</a>
+    <a href="#" id="mobile-contact" onclick="closeMenu()">Contact</a>
+  </div>
+
+  <!-- CASES -->
+  <section class="cases">
+    <div class="cases-header">
+      <span class="cases-label">Selected Work</span>
+      <span class="cases-count">03</span>
+    </div>
+    <div class="cases-grid">
+
+      <!-- BBVA -->
+      <a href="bbva.html" class="case-item">
+        <div class="case-thumb case-thumb--bleed">
+          <img src="assets/cases/bbva/bbva-main.png" alt="BBVA" />
+        </div>
+        <div class="case-meta">
+          <h3 class="case-title">BBVA</h3>
+          <p class="case-desc">App, Business & Government Public Web · BEyG</p>
+        </div>
+      </a>
+
+      <!-- Dondé Móvil -->
+      <a href="donde-movil.html" class="case-item">
+        <div class="case-thumb">
+          <img src="assets/cases/donde-movil/donde-movil-main.png" alt="Dondé Móvil" />
+        </div>
+        <div class="case-meta">
+          <h3 class="case-title">Dondé Móvil</h3>
+          <p class="case-desc">App, New features, design system and new digital products</p>
+        </div>
+      </a>
+
+      <!-- Wanacar -->
+      <a href="wanacar.html" class="case-item">
+        <div class="case-thumb">
+          <img src="assets/cases/wanacar/wanacar-main.png" alt="Wanacar" />
+        </div>
+        <div class="case-meta">
+          <h3 class="case-title">Wanacar</h3>
+          <p class="case-desc">New product, web and responsive design, Research, platform.</p>
+        </div>
+      </a>
+
+    </div>
+  </section>
+
+  <script>
+    const u = 'hola';
+    const d = 'frankmina.com';
+    const mailto = 'mailto:' + u + '@' + d;
+    document.getElementById('nav-contact').href = mailto;
+    document.getElementById('mobile-contact').href = mailto;
+
+    const hamburger = document.getElementById('hamburger');
+    const mobileMenu = document.getElementById('mobileMenu');
+
+    hamburger.addEventListener('click', () => {
+      hamburger.classList.toggle('open');
+      mobileMenu.classList.toggle('open');
+      document.body.style.overflow = mobileMenu.classList.contains('open') ? 'hidden' : '';
+    });
+
+    function closeMenu() {
+      hamburger.classList.remove('open');
+      mobileMenu.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+  </script>
+</body>
+</html>

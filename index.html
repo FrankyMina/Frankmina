@@ -17,10 +17,6 @@
       --gold:        #c8a94a;
       --green:       #4caf76;
       --border-dark: rgba(240, 237, 230, 0.08);
-      --cases-bg:    #ffffff;
-      --cases-fg:    #0a0a08;
-      --cases-muted: #999590;
-      --card-bg:     #f0efed;
     }
 
     html, body {
@@ -123,6 +119,7 @@
       padding: 0 48px;
     }
 
+    /* Status bar — se va con el scroll */
     .status-bar {
       display: flex;
       align-items: center;
@@ -140,15 +137,14 @@
       font-size: 10px;
       letter-spacing: 0.12em;
       text-transform: uppercase;
-      color: var(--muted);
+      color: var(--fg);
       cursor: default;
       transition: color 0.2s;
     }
 
-    .status-available:hover { color: var(--fg); }
-
     .dot {
-      width: 6px; height: 6px;
+      width: 6px;
+      height: 6px;
       border-radius: 50%;
       background: var(--green);
       flex-shrink: 0;
@@ -164,7 +160,8 @@
       display: inline-flex;
       align-items: center;
       overflow: hidden;
-      width: 0; opacity: 0;
+      width: 0;
+      opacity: 0;
       transition: width 0.3s ease, opacity 0.3s ease;
       margin-left: 2px;
     }
@@ -185,6 +182,7 @@
     .status-available:hover .check-icon { width: 18px; opacity: 1; }
     .status-available:hover .check-icon svg path { stroke-dashoffset: 0; }
 
+    /* Reloj CDMX */
     .clock-item {
       display: flex;
       align-items: center;
@@ -202,9 +200,15 @@
       white-space: nowrap;
       opacity: 0.5;
       text-transform: uppercase;
+      position: relative;
     }
 
-    .city-short { display: inline-block; }
+    .city-short {
+      display: inline-block;
+      transition: opacity 0.3s ease, max-width 0.3s ease;
+      max-width: 60px;
+      overflow: hidden;
+    }
 
     .city-long {
       display: inline-block;
@@ -215,11 +219,13 @@
       white-space: nowrap;
     }
 
+    .clock-item:hover .city-short { max-width: 0; opacity: 0; }
     .clock-item:hover .city-long { max-width: 200px; opacity: 1; }
     .clock-item:hover .clock-city { opacity: 0.8; }
     .clock-time { color: var(--fg); transition: color 0.2s; }
     .clock-item:hover .clock-time { color: var(--gold); }
 
+    /* Hero content */
     .hero-content {
       flex: 1;
       display: flex;
@@ -235,7 +241,7 @@
       font-weight: 300;
       letter-spacing: 0.14em;
       text-transform: uppercase;
-      color: var(--muted);
+      color: var(--fg);
       margin-bottom: 32px;
       display: flex;
       align-items: center;
@@ -267,7 +273,7 @@
       font-family: 'DM Sans', sans-serif;
       font-size: 16px;
       font-weight: 300;
-      color: var(--muted);
+      color: var(--fg);
       line-height: 1.6;
       max-width: 520px;
       margin-bottom: 48px;
@@ -294,7 +300,7 @@
       font-size: 11px;
       letter-spacing: 0.12em;
       text-transform: uppercase;
-      color: var(--muted);
+      color: var(--fg);
       text-decoration: none;
       transition: color 0.2s;
       display: flex;
@@ -302,9 +308,10 @@
       gap: 8px;
     }
 
-    .btn-secondary:hover { color: var(--fg); }
+    .btn-secondary:hover { color: var(--gold); }
     .btn-secondary span { font-size: 14px; }
 
+    /* ── FADE IN ── */
     .fade-in { opacity: 0; transform: translateY(18px); animation: fadeUp 0.8s ease forwards; }
     .fade-in:nth-child(1) { animation-delay: 0.1s; }
     .fade-in:nth-child(2) { animation-delay: 0.25s; }
@@ -312,106 +319,6 @@
     .fade-in:nth-child(4) { animation-delay: 0.55s; }
 
     @keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
-
-    /* ══════════════════════
-       CASES
-    ══════════════════════ */
-    .cases {
-      background: var(--cases-bg);
-      padding: 72px 48px 100px;
-    }
-
-    .cases-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding-bottom: 24px;
-      margin-bottom: 40px;
-      border-bottom: 1px solid #e8e8e6;
-    }
-
-    .cases-label {
-      font-family: 'DM Mono', monospace;
-      font-size: 11px;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      color: var(--cases-muted);
-    }
-
-    .cases-count {
-      font-family: 'DM Mono', monospace;
-      font-size: 11px;
-      color: var(--cases-muted);
-    }
-
-    /* Grid: BBVA 2fr, Dondé 1fr, Wanacar 1fr — todos en una fila */
-    .cases-grid {
-      display: grid;
-      grid-template-columns: 2fr 1fr 1fr;
-      gap: 24px;
-      align-items: start;
-    }
-
-    .case-item {
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
-      text-decoration: none;
-      color: inherit;
-    }
-
-    /* Imagen a sangre, sin padding */
-    .case-thumb {
-      width: 100%;
-      aspect-ratio: 4 / 3;
-      overflow: hidden;
-      background: var(--card-bg);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 24px;
-    }
-
-    .case-thumb img {
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
-      display: block;
-      transition: transform 0.5s ease;
-    }
-
-    .case-thumb--bleed {
-      padding: 0;
-    }
-
-    .case-thumb--bleed img {
-      object-fit: cover;
-    }
-
-    .case-item:hover .case-thumb img { transform: scale(1.04); }
-
-    .case-meta {
-      display: flex;
-      flex-direction: column;
-      gap: 5px;
-      padding: 0 2px;
-    }
-
-    .case-title {
-      font-family: 'DM Sans', sans-serif;
-      font-size: 15px;
-      font-weight: 600;
-      color: var(--cases-fg);
-      letter-spacing: -0.01em;
-    }
-
-    .case-desc {
-      font-family: 'DM Sans', sans-serif;
-      font-size: 13px;
-      font-weight: 400;
-      color: var(--cases-muted);
-      line-height: 1.5;
-    }
 
     /* ══════════════════════
        MÓVIL
@@ -433,34 +340,34 @@
       .city-short { display: none; }
       .city-long { max-width: 200px !important; opacity: 1 !important; transition: none !important; }
       .clock-city { opacity: 0.6 !important; }
-
-      .cases { padding: 56px 24px 80px; }
-      .cases-grid { grid-template-columns: 1fr; gap: 40px; }
     }
   </style>
 </head>
 <body>
 
+  <!-- NAV -->
   <nav>
     <a class="nav-logo" href="/">
       <img src="FM_logo_bco.png" alt="Frank Miranda logo" />
     </a>
     <ul class="nav-links">
-      <li><a href="#cases">Cases</a></li>
-      <li><a href="#about">About</a></li>
-      <li><a href="/cdn-cgi/l/email-protection#d2babdbeb392b4a0b3bcb9bfbbbcb3fcb1bdbf">Contact</a></li>
+      <li><a href="cases.html">Cases</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="#" id="nav-contact">Contact</a></li>
     </ul>
     <button class="hamburger" id="hamburger" aria-label="Menu">
       <span></span><span></span><span></span>
     </button>
   </nav>
 
+  <!-- MOBILE MENU -->
   <div class="mobile-menu" id="mobileMenu">
-    <a href="#cases" onclick="closeMenu()">Cases</a>
-    <a href="#about" onclick="closeMenu()">About</a>
-    <a href="/cdn-cgi/l/email-protection#4f2720232e0f293d2e21242226212e612c2022" onclick="closeMenu()">Contact</a>
+    <a href="cases.html" onclick="closeMenu()">Cases</a>
+    <a href="about.html" onclick="closeMenu()">About</a>
+    <a href="#" id="mobile-contact" onclick="closeMenu()">Contact</a>
   </div>
 
+  <!-- HERO -->
   <section class="hero">
     <div class="status-bar">
       <div class="status-available">
@@ -490,55 +397,24 @@
         Shaping digital products from Mexico City — UX/UI design, digital services, web apps, platforms & AI-driven experiences.
       </p>
       <div class="hero-cta fade-in">
-        <a href="#cases" class="btn-primary">View Cases</a>
-        <a href="/cdn-cgi/l/email-protection#4f2720232e0f293d2e21242226212e612c2022" class="btn-secondary">
+        <a href="cases.html" class="btn-primary">View Cases</a>
+        <a href="#" id="cta-contact" class="btn-secondary">
           Let's talk <span>↗</span>
         </a>
       </div>
     </div>
   </section>
 
-  <section class="cases" id="cases">
-    <div class="cases-header">
-      <span class="cases-label">Selected Work</span>
-      <span class="cases-count">03</span>
-    </div>
-    <div class="cases-grid">
-
-      <a href="#" class="case-item">
-        <div class="case-thumb case-thumb--bleed">
-          <img src="assets/cases/bbva/bbva-main.png" alt="BBVA" />
-        </div>
-        <div class="case-meta">
-          <h3 class="case-title">BBVA</h3>
-          <p class="case-desc">App, Business & Government Public Web · BEyG</p>
-        </div>
-      </a>
-
-      <a href="#" class="case-item">
-        <div class="case-thumb">
-          <img src="assets/cases/donde-movil/donde-movil-main.png" alt="Dondé Móvil" />
-        </div>
-        <div class="case-meta">
-          <h3 class="case-title">Dondé Móvil</h3>
-          <p class="case-desc">App, New features, design system and new digital products</p>
-        </div>
-      </a>
-
-      <a href="#" class="case-item">
-        <div class="case-thumb">
-          <img src="assets/cases/wanacar/wanacar-main.png" alt="Wanacar" />
-        </div>
-        <div class="case-meta">
-          <h3 class="case-title">Wanacar</h3>
-          <p class="case-desc">New product, web and responsive design, Research, platform.</p>
-        </div>
-      </a>
-
-    </div>
-  </section>
-
   <script>
+    // ── Email ──
+    const u = 'hola';
+    const d = 'frankmina.com';
+    const mailto = 'mailto:' + u + '@' + d;
+    document.getElementById('nav-contact').href = mailto;
+    document.getElementById('mobile-contact').href = mailto;
+    document.getElementById('cta-contact').href = mailto;
+
+    // ── Reloj ──
     function updateClocks() {
       const now = new Date();
       document.getElementById('clock-cdmx').textContent = new Intl.DateTimeFormat('en', {
@@ -549,10 +425,21 @@
     updateClocks();
     setInterval(updateClocks, 1000);
 
+    // ── Hamburger ──
     const hamburger = document.getElementById('hamburger');
     const mobileMenu = document.getElementById('mobileMenu');
 
     hamburger.addEventListener('click', () => {
       hamburger.classList.toggle('open');
       mobileMenu.classList.toggle('open');
-      document.body.style.overflow = mobileMenu.classList
+      document.body.style.overflow = mobileMenu.classList.contains('open') ? 'hidden' : '';
+    });
+
+    function closeMenu() {
+      hamburger.classList.remove('open');
+      mobileMenu.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+  </script>
+</body>
+</html>

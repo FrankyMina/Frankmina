@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dondé Móvil — Frank Miranda</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=DM+Mono:wght@300;400&family=DM+Sans:wght@300;400;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:      #0a0a08;
+      --fg:      #f0ede6;
+      --muted:   #6b6860;
+      --gold:    #c8a94a;
+      --text:    #0a0a08;
+      --subtle:  #999590;
+      --divider: #e8e6e2;
+      --pad:     48px;
+    }
+
+    html, body {
+      background: #ffffff;
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    /* ════════════════════════
+       NAV — blanco fijo
+    ════════════════════════ */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 28px var(--pad);
+      background: #ffffff;
+      border-bottom: 1px solid var(--divider);
+    }
+
+    .nav-logo img {
+      height: 28px;
+      width: auto;
+      opacity: 0.95;
+      /* Logo negro sobre fondo blanco */
+      filter: invert(1);
+    }
+
+    .nav-links { display: flex; gap: 36px; list-style: none; }
+
+    .nav-links a {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      font-weight: 300;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--subtle);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--text); }
+
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      padding: 4px;
+      background: none;
+      border: none;
+    }
+
+    .hamburger span {
+      display: block;
+      width: 22px;
+      height: 1px;
+      background: var(--text);
+      transition: transform 0.3s ease, opacity 0.3s ease;
+      transform-origin: center;
+    }
+
+    .hamburger.open span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
+
+    .mobile-menu {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      z-index: 99;
+      background: #ffffff;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 40px;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .mobile-menu.open { display: flex; opacity: 1; }
+
+    .mobile-menu a {
+      font-family: 'Playfair Display', serif;
+      font-size: 36px;
+      color: var(--subtle);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .mobile-menu a:hover { color: var(--text); }
+
+    /* ════════════════════════
+       BACK
+    ════════════════════════ */
+    .back-wrap {
+      padding: 112px var(--pad) 0;
+    }
+
+    .back-link {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--subtle);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: color 0.2s;
+    }
+
+    .back-link:hover { color: var(--text); }
+
+    /* ════════════════════════
+       SECCIONES — 2 columnas
+    ════════════════════════ */
+    .case-content {
+      padding: 48px 0 100px;
+      display: flex;
+      flex-direction: column;
+      gap: 48px;
+    }
+
+    /* Línea divisora entre secciones */
+    .case-section {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+      align-items: start;
+      border-top: 1px solid var(--divider);
+      padding-top: 48px;
+      padding-left: var(--pad);
+      padding-right: var(--pad);
+    }
+
+    /* Columna izquierda */
+    .col-left {
+      padding-right: 48px;
+    }
+
+    /* Columna derecha */
+    .col-right {
+      padding-left: 0;
+    }
+
+    /* Imagen a ancho de su columna */
+    .col-img img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    /* Imagen más pequeña — centrada */
+    .col-img.img-contained {
+      display: flex;
+      align-items: flex-start;
+      justify-content: flex-start;
+    }
+
+    .col-img.img-contained img {
+      max-width: 100%;
+      width: auto;
+    }
+
+    /* ── Tipografía dentro de secciones ── */
+    .section-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--subtle);
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .section-label::before {
+      content: '';
+      display: block;
+      width: 16px;
+      height: 1px;
+      background: var(--gold);
+      flex-shrink: 0;
+    }
+
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(22px, 2.5vw, 32px);
+      font-weight: 400;
+      line-height: 1.2;
+      letter-spacing: -0.01em;
+      color: var(--text);
+      margin-bottom: 20px;
+    }
+
+    .section-body {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 15px;
+      font-weight: 300;
+      color: #555250;
+      line-height: 1.75;
+      margin-bottom: 20px;
+    }
+
+    /* Lista con línea sutil */
+    .section-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-bottom: 20px;
+    }
+
+    .section-list li {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      font-weight: 400;
+      color: #555250;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      line-height: 1.5;
+    }
+
+    .section-list li::before {
+      content: '';
+      display: block;
+      width: 14px;
+      height: 1px;
+      background: var(--subtle);
+      flex-shrink: 0;
+    }
+
+    /* Servicios sin label especial */
+    .services-label {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 8px;
+      margin-top: 24px;
+    }
+
+    .services-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .services-list li {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      font-weight: 300;
+      color: #555250;
+      line-height: 1.6;
+    }
+
+    /* ════════════════════════
+       FOOTER
+    ════════════════════════ */
+    .case-footer {
+      padding: 56px var(--pad);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-top: 1px solid var(--divider);
+    }
+
+    .case-footer a {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--subtle);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .case-footer a:hover { color: var(--text); }
+
+    /* ════════════════════════
+       RESPONSIVE
+    ════════════════════════ */
+    @media (max-width: 768px) {
+      :root { --pad: 24px; }
+
+      nav { padding: 20px var(--pad); }
+      .nav-links { display: none; }
+      .hamburger { display: flex; }
+
+      .back-wrap { padding-top: 100px; }
+
+      .case-section {
+        grid-template-columns: 1fr;
+        gap: 32px;
+      }
+
+      .col-left { padding-right: 0; }
+
+      .case-footer {
+        flex-direction: column;
+        gap: 24px;
+        align-items: flex-start;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV — blanco -->
+  <nav>
+    <a class="nav-logo" href="cases.html">
+      <img src="FM_logo_bco.png" alt="Frank Miranda" />
+    </a>
+    <ul class="nav-links">
+      <li><a href="cases.html">Cases</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="#" id="nav-contact">Contact</a></li>
+    </ul>
+    <button class="hamburger" id="hamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="cases.html" onclick="closeMenu()">Cases</a>
+    <a href="about.html" onclick="closeMenu()">About</a>
+    <a href="#" id="mobile-contact" onclick="closeMenu()">Contact</a>
+  </div>
+
+  <!-- BACK -->
+  <div class="back-wrap">
+    <a href="cases.html" class="back-link">← Back to work</a>
+  </div>
+
+  <!-- CONTENIDO -->
+  <div class="case-content">
+
+    <!-- SECCIÓN 01 — Logo + mockup izq, descripción + servicios der -->
+    <div class="case-section">
+      <div class="col-left col-img">
+        <img src="assets/cases/donde-movil/donde-movil-01.png" alt="Dondé Móvil — App" />
+      </div>
+      <div class="col-right">
+        <p class="section-body">
+          Dondé Móvil es una app mexicana enfocada en el empeño digital de joyería y electrodomésticos, principalmente celulares. Funciona como una alternativa moderna a las casas de empeño tradicionales, permitiendo a los usuarios obtener liquidez rápida sin tener que ir físicamente a una sucursal.
+        </p>
+        <p class="section-body">
+          "Diseñé experiencias digitales para transformar el modelo tradicional de empeño en una plataforma mobile-first, reduciendo fricción en procesos financieros complejos y mejorando la transparencia para el usuario."
+        </p>
+        <p class="services-label">Servicios</p>
+        <ul class="services-list">
+          <li>Diseño UX UI</li>
+          <li>Service Design</li>
+          <li>Customer Journeys</li>
+          <li>Design System</li>
+          <li>Nuevas funcionalidades</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- SECCIÓN 02 — Texto blueprints izq, imagen der -->
+    <div class="case-section">
+      <div class="col-left">
+        <p class="section-label">Service Blueprint</p>
+        <h2 class="section-title">Blueprints de servicio</h2>
+        <p class="section-body">
+          Los service blueprints se convirtieron en un artefacto central de alineación cross-funcional, conectando equipos de:
+        </p>
+        <ul class="section-list">
+          <li>Producto</li>
+          <li>Diseño</li>
+          <li>Operaciones</li>
+          <li>Atención en sucursal</li>
+        </ul>
+        <p class="section-body">
+          Los blueprints no se quedaron en documentación. Se convirtieron en un punto de encuentro entre equipos. Sirvieron para alinear conversaciones entre producto, diseño y operaciones, y ayudaron a responder preguntas clave: ¿Qué debería saber el usuario antes de ir a sucursal? ¿Qué procesos necesitan adaptarse para cumplir la promesa digital? ¿Dónde estamos generando fricción innecesaria?
+        </p>
+        <p class="section-body">
+          A partir de esto, se ajustaron flujos, se redefinieron expectativas y se diseñaron experiencias más coherentes entre canales.
+        </p>
+      </div>
+      <div class="col-right col-img">
+        <img src="assets/cases/donde-movil/donde-movil-02.png" alt="Dondé Móvil — Service Blueprint" />
+      </div>
+    </div>
+
+    <!-- SECCIÓN 03 — Imagen customer journey izq, texto der -->
+    <div class="case-section">
+      <div class="col-left col-img img-contained">
+        <img src="assets/cases/donde-movil/donde-movil-03.png" alt="Dondé Móvil — Customer Journey" />
+      </div>
+      <div class="col-right">
+        <p class="section-label">Research</p>
+        <h2 class="section-title">Customer Journeys</h2>
+        <p class="section-body">
+          Funcionaron como la capa narrativa para mostrar qué vivía el usuario. Juntos permitieron:
+        </p>
+        <ul class="section-list">
+          <li>Priorizar los momentos más críticos del journey</li>
+          <li>Diseñar soluciones no solo en la app, sino en todo el servicio</li>
+          <li>Alinear equipos alrededor de la experiencia real del usuario</li>
+        </ul>
+        <p class="section-body">
+          Se convirtió en una herramienta clave para generar empatía dentro del equipo, tomar decisiones centradas en el usuario e identificar oportunidades de mejora más allá de la interfaz.
+        </p>
+        <p class="section-body">
+          Y sobre todo, ayudó a entender que mejorar la experiencia no era cuestión de agregar features, sino de eliminar fricción en los momentos que más importan.
+        </p>
+      </div>
+    </div>
+
+    <!-- SECCIÓN 04 — Texto izq, UI specs + iconos der -->
+    <div class="case-section">
+      <div class="col-left">
+        <p class="section-label">Design System</p>
+        <h2 class="section-title">Escalando el sistema de diseño — Boletas de pago y movimientos</h2>
+        <p class="section-body">
+          Las boletas de pago y la sección de movimientos cumplían su función, pero no estaban diseñadas para escalar.
+        </p>
+        <p class="section-body">
+          La información era correcta, pero no necesariamente clara, consistente o fácil de interpretar.
+        </p>
+        <p class="section-body">
+          Y en un contexto financiero, esto no es menor: <strong>cuando el usuario no entiende, desconfía.</strong>
+        </p>
+      </div>
+      <div class="col-right col-img">
+        <img src="assets/cases/donde-movil/donde-movil-04.png" alt="Dondé Móvil — UI Specs" />
+      </div>
+    </div>
+
+    <!-- SECCIÓN 05 — Onboarding izq, texto der -->
+    <div class="case-section">
+      <div class="col-left col-img img-contained">
+        <img src="assets/cases/donde-movil/donde-movil-05.png" alt="Dondé Móvil — Onboarding" />
+      </div>
+      <div class="col-right">
+        <p class="section-label">Onboarding</p>
+        <h2 class="section-title">Overlay Welcome</h2>
+        <p class="section-body">
+          Uno de los momentos más críticos del producto ocurre antes de que el usuario haga cualquier acción.
+        </p>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="case-footer">
+    <a href="cases.html">← Back to work</a>
+    <a href="wanacar.html">Next case →</a>
+  </footer>
+
+  <script>
+    const u = 'hola';
+    const d = 'frankmina.com';
+    const mailto = 'mailto:' + u + '@' + d;
+    document.getElementById('nav-contact').href = mailto;
+    document.getElementById('mobile-contact').href = mailto;
+
+    const hamburger = document.getElementById('hamburger');
+    const mobileMenu = document.getElementById('mobileMenu');
+
+    hamburger.addEventListener('click', () => {
+      hamburger.classList.toggle('open');
+      mobileMenu.classList.toggle('open');
+      document.body.style.overflow = mobileMenu.classList.contains('open') ? 'hidden' : '';
+    });
+
+    function closeMenu() {
+      hamburger.classList.remove('open');
+      mobileMenu.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+  </script>
+</body>
+</html>
