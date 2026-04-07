@@ -119,7 +119,7 @@
       padding: 0 48px;
     }
 
-    /* Status bar — se va con el scroll */
+    /* Status bar */
     .status-bar {
       display: flex;
       align-items: center;
@@ -225,30 +225,53 @@
     .clock-time { color: var(--fg); transition: color 0.2s; }
     .clock-item:hover .clock-time { color: var(--gold); }
 
-    /* Hero content */
-    .hero-content {
+    /* ══════════════════════
+       HERO — dos columnas
+    ══════════════════════ */
+    .hero-body {
       flex: 1;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      gap: 0;
+    }
+
+    .hero-content {
       display: flex;
       flex-direction: column;
       justify-content: center;
-      padding: 80px 0;
-      max-width: 800px;
+      padding: 80px 48px 80px 0;
     }
 
-    .hero-label {
+    /* Canvas lluvia de palabras */
+    .hero-visual {
+      position: relative;
+      height: 100%;
+      min-height: 500px;
+      overflow: hidden;
+    }
+
+    #typo-rain {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+    }
+
+    /* Nombre encima */
+    .hero-name {
       font-family: 'DM Mono', monospace;
       font-size: 11px;
       font-weight: 300;
       letter-spacing: 0.14em;
       text-transform: uppercase;
-      color: var(--fg);
-      margin-bottom: 32px;
+      color: var(--muted);
+      margin-bottom: 10px;
       display: flex;
       align-items: center;
       gap: 12px;
     }
 
-    .hero-label::before {
+    .hero-name::before {
       content: '';
       display: block;
       width: 24px;
@@ -256,19 +279,86 @@
       background: var(--gold);
     }
 
+    /* Título debajo del nombre */
+    .hero-title {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      font-weight: 300;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--fg);
+      margin-bottom: 28px;
+    }
+
     h1 {
       font-family: 'Playfair Display', serif;
-      font-size: 71px;
-      font-weight: 400;
+      font-size: 60px;
+      font-weight: 400; 
       line-height: 1.08;
       letter-spacing: -0.02em;
       color: var(--fg);
       margin-bottom: 24px;
-      max-width: 640px;
+      max-width: 100%;
     }
 
     h1 em { font-style: italic; color: var(--gold); }
 
+    .h1-line1 {
+      display: block;
+      white-space: nowrap;
+    }
+
+    .h1-line2 {
+      display: block;
+    }
+
+    /* ══════════════════════
+       SLOT MACHINE
+    ══════════════════════ */
+
+    /* Ventanita que recorta — solo se ve la palabra activa */
+    /* min-width fijado al ancho de la palabra mas larga (experiences)
+       para que el H1 no cambie de tamaño al rotar */
+    .slot-wrapper {
+      display: inline-block;
+      overflow: hidden;
+      vertical-align: bottom;
+      line-height: inherit;
+      /* el ancho lo calcula JS al inicio segun la palabra mas larga */
+    }
+
+    /* La palabra rotante */
+    .slot-word {
+      display: inline-block;
+      color: var(--gold);
+      font-style: italic;
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    /* Sale hacia arriba */
+    .slot-word.exit {
+      animation: slotExit 0.22s ease-in forwards;
+    }
+
+    /* Entra desde abajo */
+    .slot-word.enter {
+      animation: slotEnter 0.3s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    }
+
+    @keyframes slotExit {
+      0%   { transform: translateY(0);     opacity: 1; }
+      100% { transform: translateY(-115%); opacity: 0; }
+    }
+
+    @keyframes slotEnter {
+      0%   { transform: translateY(115%);  opacity: 0; }
+      100% { transform: translateY(0);     opacity: 1; }
+    }
+
+    /* ══════════════════════
+       HERO SUB + CTA
+    ══════════════════════ */
     .hero-sub {
       font-family: 'DM Sans', sans-serif;
       font-size: 16px;
@@ -311,12 +401,13 @@
     .btn-secondary:hover { color: var(--gold); }
     .btn-secondary span { font-size: 14px; }
 
-    /* ── FADE IN ── */
+    /* ── FADE IN entrada de página ── */
     .fade-in { opacity: 0; transform: translateY(18px); animation: fadeUp 0.8s ease forwards; }
     .fade-in:nth-child(1) { animation-delay: 0.1s; }
     .fade-in:nth-child(2) { animation-delay: 0.25s; }
     .fade-in:nth-child(3) { animation-delay: 0.4s; }
     .fade-in:nth-child(4) { animation-delay: 0.55s; }
+    .fade-in:nth-child(5) { animation-delay: 0.7s; }
 
     @keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
 
@@ -330,7 +421,9 @@
 
       .hero { padding: 0 24px; }
       .status-bar { margin-top: 72px; }
-      .hero-content { padding: 48px 0 64px; max-width: 100%; }
+      .hero-body { grid-template-columns: 1fr; }
+      .hero-content { padding: 48px 0 32px; }
+      .hero-visual { display: none; }
 
       h1 { font-size: clamp(36px, 10vw, 52px); max-width: 100%; }
       .hero-sub { font-size: 15px; max-width: 100%; }
@@ -340,6 +433,182 @@
       .city-short { display: none; }
       .city-long { max-width: 200px !important; opacity: 1 !important; transition: none !important; }
       .clock-city { opacity: 0.6 !important; }
+    }
+
+    /* ══════════════════════
+       PROFILE SECTION
+    ══════════════════════ */
+    .profile {
+      background: var(--fg);
+      padding: 120px 48px;
+    }
+
+    .profile-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    /* Header */
+    .profile-header {
+      margin-bottom: 80px;
+    }
+
+    .profile-tag {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      font-weight: 300;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--gold);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .profile-tag::before {
+      content: '';
+      display: block;
+      width: 24px;
+      height: 1px;
+      background: var(--gold);
+    }
+
+    .profile-h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 56px;
+      font-weight: 400;
+      line-height: 1.08;
+      letter-spacing: -0.02em;
+      color: var(--bg);
+    }
+
+    /* Chapters grid */
+    .profile-chapters {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 48px;
+      border-top: 1px solid rgba(10,10,8,0.1);
+      padding-top: 56px;
+    }
+
+    .chapter-label {
+      display: flex;
+      align-items: baseline;
+      gap: 10px;
+      margin-bottom: 24px;
+    }
+
+    .chapter-num {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      font-weight: 300;
+      letter-spacing: 0.12em;
+      color: var(--gold);
+    }
+
+    .chapter-title {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      font-weight: 400;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--bg);
+    }
+
+    .chapter-body p {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 15px;
+      font-weight: 300;
+      line-height: 1.75;
+      color: rgba(10,10,8,0.75);
+      margin-bottom: 16px;
+    }
+
+    .chapter-body p:last-child { margin-bottom: 0; }
+
+    .chapter-body strong {
+      font-weight: 500;
+      color: var(--bg);
+    }
+
+    /* Mobile */
+    @media (max-width: 768px) {
+      .profile { padding: 80px 24px; }
+      .profile-h2 { font-size: 36px; }
+      .profile-header { margin-bottom: 48px; }
+      .profile-chapters { grid-template-columns: 1fr; gap: 40px; }
+    }
+
+    /* ══════════════════════
+       FOOTER
+    ══════════════════════ */
+    .site-footer {
+      background: var(--fg);
+      padding: 24px 48px;
+      border-top: 1px solid rgba(10,10,8,0.1);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .footer-copy {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      font-weight: 300;
+      letter-spacing: 0.1em;
+      color: rgba(10,10,8,0.4);
+    }
+
+    .footer-top {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      font-weight: 300;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(10,10,8,0.4);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: color 0.2s;
+    }
+
+    .footer-top:hover { color: var(--bg); }
+
+    .footer-top svg {
+      width: 14px;
+      height: 14px;
+      transition: transform 0.2s;
+    }
+
+    .footer-top:hover svg { transform: translateY(-2px); }
+
+    .footer-linkedin {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      font-weight: 300;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(10,10,8,0.4);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      transition: color 0.2s;
+    }
+
+    .footer-linkedin:hover { color: var(--bg); }
+
+    .footer-linkedin svg {
+      width: 13px;
+      height: 13px;
+      flex-shrink: 0;
+    }
+
+    @media (max-width: 768px) {
+      .site-footer { padding: 20px 24px; gap: 16px; flex-wrap: wrap; justify-content: center; }
+      .footer-copy { width: 100%; text-align: center; }
     }
   </style>
 </head>
@@ -353,7 +622,7 @@
     <ul class="nav-links">
       <li><a href="cases.html">Cases</a></li>
       <li><a href="about.html">About</a></li>
-      <li><a href="#" id="nav-contact">Contact</a></li>
+      <li><a href="#" id="nav-contact">Let's talk</a></li>
     </ul>
     <button class="hamburger" id="hamburger" aria-label="Menu">
       <span></span><span></span><span></span>
@@ -364,7 +633,7 @@
   <div class="mobile-menu" id="mobileMenu">
     <a href="cases.html" onclick="closeMenu()">Cases</a>
     <a href="about.html" onclick="closeMenu()">About</a>
-    <a href="#" id="mobile-contact" onclick="closeMenu()">Contact</a>
+    <a href="#" id="mobile-contact" onclick="closeMenu()">Let's talk</a>
   </div>
 
   <!-- HERO -->
@@ -388,22 +657,106 @@
       </div>
     </div>
 
-    <div class="hero-content">
-      <p class="hero-label fade-in">Product Designer & Digital Builder</p>
-      <h1 class="fade-in">
-        Designing products<br>people <em>actually</em> use.
-      </h1>
-      <p class="hero-sub fade-in">
-        Shaping digital products from Mexico City — UX/UI design, digital services, web apps, platforms & AI-driven experiences.
-      </p>
-      <div class="hero-cta fade-in">
-        <a href="cases.html" class="btn-primary">View Cases</a>
-        <a href="#" id="cta-contact" class="btn-secondary">
-          Let's talk <span>↗</span>
-        </a>
+    <div class="hero-body">
+      <div class="hero-content">
+        <!-- Nombre -->
+        <p class="hero-name fade-in">Francisco Miranda</p>
+
+        <!-- Título -->
+        <p class="hero-title fade-in">Product Designer & Digital Builder</p>
+
+        <!-- H1 con slot machine en "products" -->
+        <h1 class="fade-in">
+          <span class="h1-line1">Designing <span class="slot-wrapper"><span class="slot-word" id="slot">products</span></span></span>
+          <span class="h1-line2">people <em>actually</em> use.</span>
+        </h1>
+
+        <p class="hero-sub fade-in">
+          Shaping digital products from Mexico City — UX/UI design, digital services, web apps, platforms & AI-driven experiences.
+        </p>
+        <div class="hero-cta fade-in">
+          <a href="cases.html" class="btn-primary">View Cases</a>
+          <a href="#" id="cta-contact" class="btn-secondary">
+            Let's talk <span>↗</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Visual: lluvia de palabras -->
+      <div class="hero-visual">
+        <canvas id="typo-rain"></canvas>
+      </div>
+    </div>
+
+  <!-- PROFILE SECTION -->
+  <section class="profile">
+    <div class="profile-inner">
+
+      <div class="profile-header">
+        <span class="profile-tag">My Profile</span>
+        <h2 class="profile-h2">A designer shaped<br>by two cities.</h2>
+      </div>
+
+      <div class="profile-chapters">
+
+        <!-- Capítulo 1: Origen -->
+        <div class="chapter">
+          <div class="chapter-label">
+            <span class="chapter-num">01</span>
+            <span class="chapter-title">Origin</span>
+          </div>
+          <div class="chapter-body">
+            <p>It started in Los Angeles — not with pixels, but with people. Working at advertising agencies focused on restaurants, I learned that design is really about creating an experience someone feels before they can describe it. The ambiance, the menu layout, the moment a dish arrives: every detail is a decision.</p>
+            <p>When the web began to take shape and UX/UI emerged as a discipline, I recognized the same instinct. I had mentors who pushed me to think beyond screens — to ask what the experience should feel like, then build backward from there. That's when I started designing websites and digital experiences that matched the quality of the in-person service they represented.</p>
+          </div>
+        </div>
+
+        <!-- Capítulo 2: Hoy -->
+        <div class="chapter">
+          <div class="chapter-label">
+            <span class="chapter-num">02</span>
+            <span class="chapter-title">Today</span>
+          </div>
+          <div class="chapter-body">
+            <p>14 years later, I'm a Sr. Product Designer at BBVA México — leading end-to-end design for the public app, public web, and enterprise web used by millions of people. My background in graphic design gives me an edge in visual quality; my years in digital give me the systems thinking to back it up.</p>
+            <p>I specialize in digital banking: information architecture, interactive prototypes, and visual design that earns trust at scale. I work inside Agile teams alongside POs, Scrum Masters, stakeholders, and engineers — moving fast without losing craft.</p>
+            <p>I also integrate AI across my entire design process: ideation, UX writing, research, asset generation, and accelerated prototyping. It's not a tool I use occasionally — it's woven into how I work every day.</p>
+          </div>
+        </div>
+
+        <!-- Capítulo 3: Lo que viene -->
+        <div class="chapter">
+          <div class="chapter-label">
+            <span class="chapter-num">03</span>
+            <span class="chapter-title">What's next</span>
+          </div>
+          <div class="chapter-body">
+            <p>Beyond BBVA, I co-founded <strong>Syrup Studio Mx</strong> — a boutique studio building chatbots, process automation, web design, apps, and AI-driven platforms for clients who need more than a pretty interface.</p>
+            <p>I'm looking for the next challenge: a team that cares about craft, moves with intention, and believes that good design is a business decision — not a finishing touch.</p>
+          </div>
+        </div>
+
       </div>
     </div>
   </section>
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <span class="footer-copy">&copy; 2026 Frank's Office</span>
+
+    <a href="https://www.linkedin.com/in/franciscomina/" target="_blank" rel="noopener" class="footer-linkedin">
+      <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+        <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+      </svg>
+      LinkedIn
+    </a>
+
+    <a href="#" class="footer-top" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;">
+      Back to top
+      <svg viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M7 11V3M3 6l4-4 4 4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </a>
+  </footer>
 
   <script>
     // ── Email ──
@@ -440,6 +793,164 @@
       mobileMenu.classList.remove('open');
       document.body.style.overflow = '';
     }
+
+    // ── Lluvia de palabras ──
+    (function() {
+      const canvas = document.getElementById('typo-rain');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+
+      function resize() {
+        canvas.width  = canvas.offsetWidth;
+        canvas.height = canvas.offsetHeight;
+      }
+      resize();
+      window.addEventListener('resize', resize);
+
+      const GOLD  = '#c8a94a';
+      const GREEN = '#4caf76';
+      const FG    = 'rgba(240,237,230,';
+
+      const wordList = [
+        'UX','UI','Design','Code','API','Build','Flow','Grid',
+        'Figma','React','Ship','Test','Proto','Wire','Brand',
+        'Motion','System','User','Data','Form','App','Web',
+        'Token','Component','Sprint','Deploy','Git',
+        'Sketch','Frame','Type','Color','Space','Pixel',
+        'Mobile','Dark','Light','Hover','Click',
+        'Map','Journey','Research','Insight','Metric',
+        'CSS','HTML','JS','Node','REST','Stack','Agile'
+      ];
+
+      let drops = [];
+
+      function initDrops() {
+        const W = canvas.width, H = canvas.height;
+        const cols = 14;
+        const colW = W / cols;
+        drops = [];
+        for (let i = 0; i < cols * 2; i++) {
+          const col = i % cols;
+          drops.push({
+            word:  wordList[Math.floor(Math.random() * wordList.length)],
+            x:     col * colW + Math.random() * (colW * 0.5),
+            y:     Math.random() * H,
+            speed: 0.28 + Math.random() * 0.5,
+            alpha: 0.07 + Math.random() * 0.48,
+            size:  10 + Math.floor(Math.random() * 11),
+            color: Math.random() < 0.16 ? GOLD : Math.random() < 0.07 ? GREEN : null,
+            mono:  Math.random() > 0.42
+          });
+        }
+      }
+      initDrops();
+      window.addEventListener('resize', initDrops);
+
+      let t0 = null;
+      function draw(ts) {
+        if (!t0) t0 = ts;
+        const t = (ts - t0) / 1000;
+        const W = canvas.width, H = canvas.height;
+
+        ctx.fillStyle = 'rgba(10,10,8,0.2)';
+        ctx.fillRect(0, 0, W, H);
+
+        drops.forEach((d, i) => {
+          d.y += d.speed;
+          if (d.y > H + 30) {
+            d.y     = -20 - Math.random() * 60;
+            d.word  = wordList[Math.floor(Math.random() * wordList.length)];
+            d.alpha = 0.07 + Math.random() * 0.48;
+            d.speed = 0.28 + Math.random() * 0.5;
+            d.size  = 10 + Math.floor(Math.random() * 11);
+            d.color = Math.random() < 0.16 ? GOLD : Math.random() < 0.07 ? GREEN : null;
+          }
+
+          const flicker = 0.75 + 0.25 * Math.sin(t * 2.2 + i * 1.4);
+          ctx.save();
+          ctx.globalAlpha = d.alpha * flicker;
+          ctx.fillStyle   = d.color ? d.color : FG + '0.65)';
+          ctx.font        = (d.mono ? '300 ' : '400 ') + d.size + 'px ' +
+                            (d.mono ? "'DM Mono', monospace" : "'DM Sans', sans-serif");
+          ctx.fillText(d.word, d.x, d.y);
+          ctx.restore();
+        });
+
+        // Vignette lateral izquierda para fundirse con el texto
+        const vL = ctx.createLinearGradient(0, 0, W * 0.22, 0);
+        vL.addColorStop(0, 'rgba(10,10,8,0.95)');
+        vL.addColorStop(1, 'rgba(10,10,8,0)');
+        ctx.fillStyle = vL;
+        ctx.fillRect(0, 0, W * 0.22, H);
+
+        // Vignette top y bottom
+        const vT = ctx.createLinearGradient(0, 0, 0, H * 0.18);
+        vT.addColorStop(0, 'rgba(10,10,8,0.9)');
+        vT.addColorStop(1, 'rgba(10,10,8,0)');
+        ctx.fillStyle = vT;
+        ctx.fillRect(0, 0, W, H * 0.18);
+
+        const vB = ctx.createLinearGradient(0, H * 0.82, 0, H);
+        vB.addColorStop(0, 'rgba(10,10,8,0)');
+        vB.addColorStop(1, 'rgba(10,10,8,0.9)');
+        ctx.fillStyle = vB;
+        ctx.fillRect(0, H * 0.82, W, H * 0.18);
+
+        requestAnimationFrame(draw);
+      }
+      requestAnimationFrame(draw);
+    })();
+
+    // ── Slot Machine ──
+    const words = ['products', 'experiences', 'services'];
+    let current = 0;
+
+    const slotEl   = document.getElementById('slot');
+    const wrapperEl = slotEl.parentElement;
+
+    // Medir el ancho real de cada palabra en Playfair Display 60px
+    // y fijar el wrapper al ancho de la más larga
+    (function() {
+      const tmp = document.createElement('span');
+      tmp.style.cssText = 'position:absolute;visibility:hidden;white-space:nowrap;' +
+        'font-family:Playfair Display,serif;font-size:60px;font-weight:400;letter-spacing:-0.02em;';
+      document.body.appendChild(tmp);
+      let maxW = 0;
+      words.forEach(w => {
+        tmp.textContent = w;
+        if (tmp.offsetWidth > maxW) maxW = tmp.offsetWidth;
+      });
+      document.body.removeChild(tmp);
+      wrapperEl.style.width = (maxW + 12) + 'px'; /* +12px buffer para que no se corte */
+    })();
+
+    function nextWord() {
+      const nextIndex = (current + 1) % words.length;
+
+      // 1. La palabra actual sale hacia arriba
+      slotEl.classList.add('exit');
+
+      slotEl.addEventListener('animationend', function onExit() {
+        slotEl.removeEventListener('animationend', onExit);
+
+        // 2. Cambia el texto y entra desde abajo
+        slotEl.textContent = words[nextIndex];
+        slotEl.classList.remove('exit');
+        slotEl.classList.add('enter');
+
+        slotEl.addEventListener('animationend', function onEnter() {
+          slotEl.removeEventListener('animationend', onEnter);
+          slotEl.classList.remove('enter');
+          current = nextIndex;
+        });
+      });
+    }
+
+    // Primera vez después de 2.5s, luego cada 2.5s
+    setTimeout(() => {
+      nextWord();
+      setInterval(nextWord, 2500);
+    }, 2500);
   </script>
 </body>
 </html>
