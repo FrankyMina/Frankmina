@@ -145,14 +145,30 @@
       color: var(--cases-muted);
     }
 
-    /* Grid: BBVA 2fr, Dondé 1fr, Wanacar 1fr */
-    .cases-grid {
+    /* ══════════════════════
+       FILA 1: BBVA (2fr) + Dondé + Wanacar
+    ══════════════════════ */
+    .cases-row {
       display: grid;
-      grid-template-columns: 2fr 1fr 1fr;
-      gap: 24px;
+      gap: 32px;
       align-items: start;
+      margin-bottom: 64px;
     }
 
+    .cases-row-1 {
+      grid-template-columns: 2fr 1fr 1fr;
+    }
+
+    /* ══════════════════════
+       FILA 2: Dondefon + Karfi + Graphic Design (2fr)
+    ══════════════════════ */
+    .cases-row-2 {
+      grid-template-columns: 1fr 1fr 2fr;
+    }
+
+    /* ══════════════════════
+       CASE ITEM
+    ══════════════════════ */
     .case-item {
       display: flex;
       flex-direction: column;
@@ -172,21 +188,21 @@
       padding: 24px;
     }
 
-    /* BBVA sin padding — imagen a sangre */
-    .case-thumb--bleed {
-      padding: 0;
-    }
-
-    .case-thumb--bleed img {
-      object-fit: cover;
-    }
-
     .case-thumb img {
       width: 100%;
       height: 100%;
       object-fit: contain;
       display: block;
       transition: transform 0.5s ease;
+    }
+
+    /* BBVA y Graphic Design — imagen a sangre sin padding */
+    .case-thumb--bleed {
+      padding: 0;
+    }
+
+    .case-thumb--bleed img {
+      object-fit: cover;
     }
 
     .case-item:hover .case-thumb img { transform: scale(1.04); }
@@ -223,7 +239,8 @@
       .hamburger { display: flex; }
 
       .cases { padding: 100px 24px 80px; }
-      .cases-grid { grid-template-columns: 1fr; gap: 40px; }
+      .cases-row-1,
+      .cases-row-2 { grid-template-columns: 1fr; gap: 40px; margin-bottom: 40px; }
     }
   </style>
 </head>
@@ -236,7 +253,7 @@
     </a>
     <ul class="nav-links">
       <li><a href="cases.html" class="active">Cases</a></li>
-      <li><a href="about.html">About</a></li>
+      <li><a href="index.html#about">About</a></li>
       <li><a href="#" id="nav-contact">Contact</a></li>
     </ul>
     <button class="hamburger" id="hamburger" aria-label="Menu">
@@ -247,7 +264,7 @@
   <!-- MOBILE MENU -->
   <div class="mobile-menu" id="mobileMenu">
     <a href="cases.html" onclick="closeMenu()">Cases</a>
-    <a href="about.html" onclick="closeMenu()">About</a>
+    <a href="index.html#about" onclick="closeMenu()">About</a>
     <a href="#" id="mobile-contact" onclick="closeMenu()">Contact</a>
   </div>
 
@@ -255,11 +272,13 @@
   <section class="cases">
     <div class="cases-header">
       <span class="cases-label">Selected Work</span>
-      <span class="cases-count">04</span>
+      <span class="cases-count">06</span>
     </div>
-    <div class="cases-grid">
 
-      <!-- BBVA -->
+    <!-- FILA 1: BBVA (grande) + Dondé Móvil + Wanacar -->
+    <div class="cases-row cases-row-1">
+
+      <!-- BBVA — featured izquierda -->
       <a href="bbva.html" class="case-item">
         <div class="case-thumb case-thumb--bleed">
           <img src="assets/cases/bbva/bbva-main.png" alt="BBVA" />
@@ -292,18 +311,46 @@
         </div>
       </a>
 
+    </div>
+
+    <!-- FILA 2: Dondefon + Karfi + Graphic Design (grande) -->
+    <div class="cases-row cases-row-2">
+
       <!-- DondéFon -->
       <a href="dondefon.html" class="case-item">
-        <div class="case-thumb case-thumb--bleed">
+        <div class="case-thumb">
           <img src="assets/cases/dondefon/dondefon main.png" alt="DondéFon" />
         </div>
         <div class="case-meta">
-          <h3 class="case-title">DondéFon</h3>
-          <p class="case-desc">New product, brand identity, UX research, app store assets, web design and CRM.</p>
+          <h3 class="case-title">Dondefon</h3>
+          <p class="case-desc">New product, within the family of Dondé Services, Web, CRM and Service design.</p>
+        </div>
+      </a>
+
+      <!-- Karfi -->
+      <a href="karfi.html" class="case-item">
+        <div class="case-thumb">
+          <img src="assets/cases/karfi/karfi main.png" alt="Karfi" />
+        </div>
+        <div class="case-meta">
+          <h3 class="case-title">Karfi</h3>
+          <p class="case-desc">New product, App, Research, Web and responsive design, Service design.</p>
+        </div>
+      </a>
+
+      <!-- Graphic Design — featured derecha -->
+      <a href="graphic-design.html" class="case-item">
+        <div class="case-thumb">
+          <img src="assets/cases/graphic-design/graphic design main.png" alt="Graphic Design" />
+        </div>
+        <div class="case-meta">
+          <h3 class="case-title">Graphic Design</h3>
+          <p class="case-desc">New products, Merchandise, Social assets, Web, Icons, Logos.</p>
         </div>
       </a>
 
     </div>
+
   </section>
 
   <script>
