@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Wanacar — Frank Miranda</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=DM+Mono:wght@300;400&family=DM+Sans:wght@300;400;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:      #0a0a08;
+      --fg:      #f0ede6;
+      --muted:   #6b6860;
+      --gold:    #c8a94a;
+      --text:    #0a0a08;
+      --subtle:  #999590;
+      --divider: #e8e6e2;
+      --pad:     48px;
+    }
+
+    html, body {
+      background: #ffffff;
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    /* ════════════════════════
+       NAV — blanco fijo
+    ════════════════════════ */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 28px var(--pad);
+      background: #ffffff;
+      border-bottom: 1px solid var(--divider);
+    }
+
+    .nav-logo img {
+      height: 28px;
+      width: auto;
+      opacity: 0.95;
+      filter: invert(1);
+    }
+
+    .nav-links { display: flex; gap: 36px; list-style: none; }
+
+    .nav-links a {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      font-weight: 300;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--subtle);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--text); }
+
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      padding: 4px;
+      background: none;
+      border: none;
+    }
+
+    .hamburger span {
+      display: block;
+      width: 22px;
+      height: 1px;
+      background: var(--text);
+      transition: transform 0.3s ease, opacity 0.3s ease;
+      transform-origin: center;
+    }
+
+    .hamburger.open span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
+
+    .mobile-menu {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      z-index: 99;
+      background: #ffffff;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 40px;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .mobile-menu.open { display: flex; opacity: 1; }
+
+    .mobile-menu a {
+      font-family: 'Playfair Display', serif;
+      font-size: 36px;
+      color: var(--subtle);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .mobile-menu a:hover { color: var(--text); }
+
+    /* ════════════════════════
+       BACK
+    ════════════════════════ */
+    .back-wrap {
+      padding: 112px var(--pad) 0;
+    }
+
+    .back-link {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--subtle);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: color 0.2s;
+    }
+
+    .back-link:hover { color: var(--text); }
+
+    /* ════════════════════════
+       SECCIONES — 2 columnas
+    ════════════════════════ */
+    .case-content {
+      padding: 48px 0 100px;
+      display: flex;
+      flex-direction: column;
+      gap: 48px;
+    }
+
+    .case-section {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+      align-items: start;
+      border-top: 1px solid var(--divider);
+      padding-top: 48px;
+      padding-left: var(--pad);
+      padding-right: var(--pad);
+    }
+
+    .col-left {
+      padding-right: 48px;
+    }
+
+    .col-right {
+      padding-left: 0;
+    }
+
+    .col-img img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .col-img.img-contained {
+      display: flex;
+      align-items: flex-start;
+      justify-content: flex-start;
+    }
+
+    .col-img.img-contained img {
+      max-width: 100%;
+      width: auto;
+    }
+
+    /* ── Tipografía ── */
+    .section-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--subtle);
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .section-label::before {
+      content: '';
+      display: block;
+      width: 16px;
+      height: 1px;
+      background: var(--gold);
+      flex-shrink: 0;
+    }
+
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(22px, 2.5vw, 32px);
+      font-weight: 400;
+      line-height: 1.2;
+      letter-spacing: -0.01em;
+      color: var(--text);
+      margin-bottom: 20px;
+    }
+
+    .section-body {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 15px;
+      font-weight: 300;
+      color: #555250;
+      line-height: 1.75;
+      margin-bottom: 20px;
+    }
+
+    .section-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-bottom: 20px;
+    }
+
+    .section-list li {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      font-weight: 400;
+      color: #555250;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      line-height: 1.5;
+    }
+
+    .section-list li::before {
+      content: '';
+      display: block;
+      width: 14px;
+      height: 1px;
+      background: var(--subtle);
+      flex-shrink: 0;
+    }
+
+    .services-label {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 8px;
+      margin-top: 24px;
+    }
+
+    .services-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .services-list li {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      font-weight: 300;
+      color: #555250;
+      line-height: 1.6;
+    }
+
+    /* ════════════════════════
+       PROTOTIPO EMBED
+    ════════════════════════ */
+    .prototype-section {
+      border-top: 1px solid var(--divider);
+      padding-top: 48px;
+      padding-bottom: 80px;
+      padding-left: var(--pad);
+      padding-right: var(--pad);
+    }
+
+    .prototype-header {
+      margin-bottom: 40px;
+    }
+
+    .prototype-embed {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      background: #f5f4f0;
+      border-radius: 8px;
+      padding: 32px;
+    }
+
+    .prototype-embed iframe {
+      border-radius: 6px;
+      max-width: 100%;
+    }
+
+    /* ════════════════════════
+       FOOTER
+    ════════════════════════ */
+    .case-footer {
+      padding: 56px var(--pad);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-top: 1px solid var(--divider);
+    }
+
+    .case-footer a {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--subtle);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .case-footer a:hover { color: var(--text); }
+
+    /* ════════════════════════
+       RESPONSIVE
+    ════════════════════════ */
+    @media (max-width: 768px) {
+      :root { --pad: 24px; }
+
+      nav { padding: 20px var(--pad); }
+      .nav-links { display: none; }
+      .hamburger { display: flex; }
+
+      .back-wrap { padding-top: 100px; }
+
+      .case-section {
+        grid-template-columns: 1fr;
+        gap: 32px;
+      }
+
+      .col-left { padding-right: 0; }
+
+      .prototype-embed { padding: 16px; }
+      .prototype-embed iframe { width: 100% !important; height: 300px !important; }
+
+      .case-footer {
+        flex-direction: column;
+        gap: 24px;
+        align-items: flex-start;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a class="nav-logo" href="cases.html">
+      <img src="FM_logo_bco.png" alt="Frank Miranda" />
+    </a>
+    <ul class="nav-links">
+      <li><a href="cases.html">Cases</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="#" id="nav-contact">Contact</a></li>
+    </ul>
+    <button class="hamburger" id="hamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="cases.html" onclick="closeMenu()">Cases</a>
+    <a href="about.html" onclick="closeMenu()">About</a>
+    <a href="#" id="mobile-contact" onclick="closeMenu()">Contact</a>
+  </div>
+
+  <!-- BACK -->
+  <div class="back-wrap">
+    <a href="cases.html" class="back-link">← Back to work</a>
+  </div>
+
+  <!-- CONTENIDO -->
+  <div class="case-content">
+
+    <!-- SECCIÓN 01 — Mockup izq, overview + servicios der -->
+    <div class="case-section">
+      <div class="col-left col-img">
+        <img src="assets/cases/wanacar/wanacar 01.png" alt="Wanacar — mockups" />
+      </div>
+      <div class="col-right">
+        <p class="section-body">
+          Wanacar is a platform where you can buy a used car, a new car, and get a loan to finance your purchase. We worked with a productive website that was ready to launch before the pandemic — then it was put on hold for 3 years.
+        </p>
+        <p class="section-body">
+          We redesigned the website, created the process to get financed online, and built an actual used car marketplace. The challenge wasn't just visual — it was about rebuilding trust with users and making a complex financial decision feel simple.
+        </p>
+        <p class="services-label">Services</p>
+        <ul class="services-list">
+          <li>Website Redesign</li>
+          <li>CRM Design</li>
+          <li>Responsive Platform</li>
+          <li>Marketing Material</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- SECCIÓN 02 — Texto izq, imagen der -->
+    <div class="case-section">
+      <div class="col-left">
+        <p class="section-label">The Challenge</p>
+        <h2 class="section-title">Legacy data, outdated UX — and a loan flow that didn't exist yet.</h2>
+        <p class="section-body">
+          The brief was clear: take everything from the old website, use all available analytics, and build a better experience. On top of that, design a loan simulator where customers could choose their own down payment, monthly payment, and interest rate.
+        </p>
+        <p class="section-body">
+          We applied a Design Thinking process from day one — starting with empathy work to understand what users actually experience when trying to finance a car purchase in Mexico.
+        </p>
+        <ul class="section-list">
+          <li>Customer interviews and surveys</li>
+          <li>Pain point mapping across the buying journey</li>
+          <li>User personas for different buyer segments</li>
+          <li>Heat map analysis from the old website</li>
+        </ul>
+      </div>
+      <div class="col-right col-img">
+        <img src="assets/cases/wanacar/wanacar 02.png" alt="Wanacar — challenge research" />
+      </div>
+    </div>
+
+    <!-- SECCIÓN 03 — Imagen izq, texto der -->
+    <div class="case-section">
+      <div class="col-left col-img img-contained">
+        <img src="assets/cases/wanacar/wanacar 03.png" alt="Wanacar — customer journey" />
+      </div>
+      <div class="col-right">
+        <p class="section-label">Customer Journey</p>
+        <h2 class="section-title">Marketing data and analytics as design input.</h2>
+        <p class="section-body">
+          We synthesized all gathered information to define clear problem statements and user needs — identifying specific pain points in the car financing process that Wanacar needed to address.
+        </p>
+        <ul class="section-list">
+          <li>Defined user needs and problem statements</li>
+          <li>Developed personas by buyer segment</li>
+          <li>Prioritized features aligned to Wanacar's goals</li>
+          <li>Encouraged collaborative ideation across teams</li>
+        </ul>
+        <p class="section-body">
+          Data wasn't decoration — it drove every decision. The journey map became the shared language between design, product, and business.
+        </p>
+      </div>
+    </div>
+
+    <!-- SECCIÓN 04 — Texto izq, imagen der -->
+    <div class="case-section">
+      <div class="col-left">
+        <p class="section-label">Competitive Analysis</p>
+        <h2 class="section-title">Understanding what existed — to build what was missing.</h2>
+        <p class="section-body">
+          Payment summaries and transaction sections were doing their job, but weren't designed to scale. The information was correct, but not necessarily clear, consistent, or easy to interpret.
+        </p>
+        <p class="section-body">
+          In a financial context, that's not a minor issue: <strong>when the user doesn't understand, they lose trust.</strong>
+        </p>
+        <p class="section-body">
+          Benchmarking existing platforms helped us identify the gap between what was out there and what users actually expected from a modern car-buying experience in Mexico.
+        </p>
+      </div>
+      <div class="col-right col-img">
+        <img src="assets/cases/wanacar/wanacar 04.png" alt="Wanacar — competitive analysis" />
+      </div>
+    </div>
+
+    <!-- SECCIÓN 05 — Imagen izq, texto der -->
+    <div class="case-section">
+      <div class="col-left col-img img-contained">
+        <img src="assets/cases/wanacar/wanacar 05.png" alt="Wanacar — prototype and heatmaps" />
+      </div>
+      <div class="col-right">
+        <p class="section-label">Prototype & Data</p>
+        <h2 class="section-title">Low-fidelity first. Heat maps to decide.</h2>
+        <p class="section-body">
+          We created low-fidelity prototypes incorporating the selected features, focusing on an interface that was intuitive and easy to navigate. Then we tested them with real users.
+        </p>
+        <p class="section-body">
+          Using heat maps and behavioral data from the old website, we validated our decisions and moved forward with confidence. Data confirmed what intuition suggested — and corrected what intuition got wrong.
+        </p>
+      </div>
+    </div>
+
+    <!-- SECCIÓN 06 — Texto izq, imagen der -->
+    <div class="case-section">
+      <div class="col-left">
+        <p class="section-label">Early Sketches & Mobile First</p>
+        <h2 class="section-title">Iterate, test, refine — then ship.</h2>
+        <p class="section-body">
+          Usability testing guided each iteration. We collected feedback on user experience, functionality, and overall satisfaction — refining the design based on real insights, not assumptions.
+        </p>
+        <p class="section-body">
+          We translated the refined prototype into a fully functional digital product, collaborating with developers and stakeholders at every step. The result is a platform that works better for the people actually using it.
+        </p>
+      </div>
+      <div class="col-right col-img">
+        <img src="assets/cases/wanacar/wanacar 06.png" alt="Wanacar — early sketches and mobile" />
+      </div>
+    </div>
+
+    <!-- SECCIÓN 07 — Imagen izq, LOAN SIMULATOR historia der -->
+    <div class="case-section">
+      <div class="col-left col-img img-contained">
+        <img src="assets/cases/wanacar/wanacar 07.png" alt="Wanacar — loan simulator" />
+      </div>
+      <div class="col-right">
+        <p class="section-label">Design & Prototype</p>
+        <h2 class="section-title">Building the loan simulator — the heart of the platform.</h2>
+        <p class="section-body">
+          The loan simulator wasn't just a feature — it was the reason Wanacar existed. The original website had no way for users to understand what financing a car would actually cost them. That had to change.
+        </p>
+        <p class="section-body">
+          We started from a simple question: what does a user actually need to feel confident about financing a car? The answer wasn't more information — it was <strong>control</strong>. So we designed a tool where users could move a slider and see their monthly payment update in real time, choosing the down payment, the term, and understanding the interest before committing to anything.
+        </p>
+        <p class="section-body">
+          Dozens of iterations went into getting the interaction right. Too many inputs felt overwhelming. Too few felt like we were hiding something. The final version struck the balance: give users the three variables that matter most, show the result instantly, and let them feel like they're making the decision — because they are.
+        </p>
+        <p class="section-body">
+          The simulator became the centrepiece of the platform. Everything else — the car listings, the used marketplace, the CRM — orbited around this moment of clarity.
+        </p>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- PROTOTIPO EMBEBIDO -->
+  <div class="prototype-section">
+    <div class="prototype-header">
+      <p class="section-label">Interactive Prototype</p>
+      <h2 class="section-title">Try the loan simulator.</h2>
+    </div>
+    <div class="prototype-embed">
+      <iframe
+        style="border: 1px solid rgba(0, 0, 0, 0.1);"
+        width="1100"
+        height="650"
+        src="https://embed.figma.com/proto/1XUJuKsnP79m4HcscFD1qz/Responsivo-2.0?node-id=1905-74122&viewport=-2542%2C2603%2C0.08&scaling=scale-down&content-scaling=fixed&starting-point-node-id=1904%3A66491&page-id=379%3A9826&embed-host=share"
+        allowfullscreen>
+      </iframe>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="case-footer">
+    <a href="cases.html">← Back to work</a>
+    <a href="dondefon.html">Next case →</a>
+  </footer>
+
+  <script>
+    const u = 'hola';
+    const d = 'frankmina.com';
+    const mailto = 'mailto:' + u + '@' + d;
+    document.getElementById('nav-contact').href = mailto;
+    document.getElementById('mobile-contact').href = mailto;
+
+    const hamburger = document.getElementById('hamburger');
+    const mobileMenu = document.getElementById('mobileMenu');
+
+    hamburger.addEventListener('click', () => {
+      hamburger.classList.toggle('open');
+      mobileMenu.classList.toggle('open');
+      document.body.style.overflow = mobileMenu.classList.contains('open') ? 'hidden' : '';
+    });
+
+    function closeMenu() {
+      hamburger.classList.remove('open');
+      mobileMenu.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+  </script>
+
+</body>
+</html>

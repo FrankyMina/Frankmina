@@ -13,7 +13,7 @@
     :root {
       --bg:          #0a0a08;
       --fg:          #f0ede6;
-      --muted:       #6b6860;
+      --muted:       #9b9890;
       --gold:        #c8a94a;
       --green:       #4caf76;
       --border-dark: rgba(240, 237, 230, 0.08);
@@ -28,7 +28,7 @@
     }
 
     /* ══════════════════════
-       NAV — fijo
+       NAV
     ══════════════════════ */
     nav {
       position: fixed;
@@ -42,37 +42,30 @@
     }
 
     .nav-logo img { height: 28px; width: auto; opacity: 0.95; }
+    .nav-links { display: flex; gap: 36px; list-style: none; align-items: center; }
 
-    .nav-links { display: flex; gap: 36px; list-style: none; }
-
-    .nav-links a {
+    .nav-links a,
+    .nav-links button {
       font-family: 'DM Mono', monospace;
-      font-size: 11px;
-      font-weight: 300;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--muted);
-      text-decoration: none;
-      transition: color 0.2s ease;
+      font-size: 11px; font-weight: 300;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--muted); text-decoration: none;
+      background: none; border: none; cursor: pointer;
+      transition: color 0.2s ease; padding: 0;
     }
 
-    .nav-links a:hover { color: var(--fg); }
+    .nav-links a:hover,
+    .nav-links button:hover { color: var(--fg); }
 
     /* ── HAMBURGER ── */
     .hamburger {
-      display: none;
-      flex-direction: column;
-      gap: 5px;
-      cursor: pointer;
-      padding: 4px;
-      background: none;
-      border: none;
+      display: none; flex-direction: column;
+      gap: 5px; cursor: pointer; padding: 4px;
+      background: none; border: none;
     }
 
     .hamburger span {
-      display: block;
-      width: 22px;
-      height: 1px;
+      display: block; width: 22px; height: 1px;
       background: var(--fg);
       transition: transform 0.3s ease, opacity 0.3s ease;
       transform-origin: center;
@@ -84,45 +77,38 @@
 
     /* ── MOBILE MENU ── */
     .mobile-menu {
-      display: none;
-      position: fixed;
+      display: none; position: fixed;
       top: 0; left: 0; right: 0; bottom: 0;
-      z-index: 99;
-      background: var(--bg);
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 40px;
-      opacity: 0;
-      transition: opacity 0.3s ease;
+      z-index: 99; background: var(--bg);
+      flex-direction: column; align-items: center;
+      justify-content: center; gap: 40px;
+      opacity: 0; transition: opacity 0.3s ease;
     }
 
     .mobile-menu.open { display: flex; opacity: 1; }
 
-    .mobile-menu a {
+    .mobile-menu a,
+    .mobile-menu button {
       font-family: 'Playfair Display', serif;
-      font-size: 36px;
-      color: var(--muted);
-      text-decoration: none;
-      transition: color 0.2s;
+      font-size: 36px; color: var(--muted);
+      text-decoration: none; background: none;
+      border: none; cursor: pointer; transition: color 0.2s;
     }
 
-    .mobile-menu a:hover { color: var(--fg); }
+    .mobile-menu a:hover,
+    .mobile-menu button:hover { color: var(--fg); }
 
     /* ══════════════════════
        HERO
     ══════════════════════ */
     .hero {
       min-height: 100vh;
-      display: flex;
-      flex-direction: column;
+      display: flex; flex-direction: column;
       padding: 0 48px;
     }
 
-    /* Status bar */
     .status-bar {
-      display: flex;
-      align-items: center;
+      display: flex; align-items: center;
       justify-content: space-between;
       padding: 10px 0;
       border-bottom: 1px solid var(--border-dark);
@@ -130,24 +116,16 @@
     }
 
     .status-available {
-      display: flex;
-      align-items: center;
-      gap: 8px;
+      display: flex; align-items: center; gap: 8px;
       font-family: 'DM Mono', monospace;
-      font-size: 10px;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--fg);
+      font-size: 10px; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--fg);
       cursor: default;
-      transition: color 0.2s;
     }
 
     .dot {
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background: var(--green);
-      flex-shrink: 0;
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--green); flex-shrink: 0;
       animation: pulse 2.4s ease-in-out infinite;
     }
 
@@ -157,11 +135,8 @@
     }
 
     .check-icon {
-      display: inline-flex;
-      align-items: center;
-      overflow: hidden;
-      width: 0;
-      opacity: 0;
+      display: inline-flex; align-items: center;
+      overflow: hidden; width: 0; opacity: 0;
       transition: width 0.3s ease, opacity 0.3s ease;
       margin-left: 2px;
     }
@@ -169,240 +144,145 @@
     .check-icon svg { width: 13px; height: 13px; flex-shrink: 0; }
 
     .check-icon svg path {
-      stroke: var(--green);
-      stroke-width: 2;
-      stroke-linecap: round;
-      stroke-linejoin: round;
-      fill: none;
-      stroke-dasharray: 20;
-      stroke-dashoffset: 20;
+      stroke: var(--green); stroke-width: 2;
+      stroke-linecap: round; stroke-linejoin: round; fill: none;
+      stroke-dasharray: 20; stroke-dashoffset: 20;
       transition: stroke-dashoffset 0.35s ease 0.15s;
     }
 
     .status-available:hover .check-icon { width: 18px; opacity: 1; }
     .status-available:hover .check-icon svg path { stroke-dashoffset: 0; }
 
-    /* Reloj CDMX */
     .clock-item {
-      display: flex;
-      align-items: center;
-      gap: 8px;
+      display: flex; align-items: center; gap: 8px;
       font-family: 'DM Mono', monospace;
-      font-size: 10px;
-      letter-spacing: 0.08em;
-      color: var(--muted);
-      cursor: default;
+      font-size: 10px; letter-spacing: 0.08em;
+      color: var(--muted); cursor: default;
     }
 
     .clock-city {
-      display: inline-flex;
-      overflow: hidden;
-      white-space: nowrap;
-      opacity: 0.5;
+      display: inline-flex; overflow: hidden;
+      white-space: nowrap; opacity: 0.7;
       text-transform: uppercase;
-      position: relative;
     }
 
     .city-short {
-      display: inline-block;
+      display: inline-block; max-width: 60px; overflow: hidden;
       transition: opacity 0.3s ease, max-width 0.3s ease;
-      max-width: 60px;
-      overflow: hidden;
     }
 
     .city-long {
-      display: inline-block;
-      max-width: 0;
-      overflow: hidden;
-      opacity: 0;
+      display: inline-block; max-width: 0;
+      overflow: hidden; opacity: 0;
       transition: max-width 0.45s ease, opacity 0.35s ease;
       white-space: nowrap;
     }
 
     .clock-item:hover .city-short { max-width: 0; opacity: 0; }
-    .clock-item:hover .city-long { max-width: 200px; opacity: 1; }
-    .clock-item:hover .clock-city { opacity: 0.8; }
+    .clock-item:hover .city-long  { max-width: 200px; opacity: 1; }
+    .clock-item:hover .clock-city { opacity: 1; }
     .clock-time { color: var(--fg); transition: color 0.2s; }
     .clock-item:hover .clock-time { color: var(--gold); }
 
     /* ══════════════════════
-       HERO — dos columnas
+       HERO BODY
     ══════════════════════ */
     .hero-body {
-      flex: 1;
-      display: grid;
+      flex: 1; display: grid;
       grid-template-columns: 1fr 1fr;
       align-items: center;
-      gap: 0;
     }
 
     .hero-content {
-      display: flex;
-      flex-direction: column;
+      display: flex; flex-direction: column;
       justify-content: center;
       padding: 80px 48px 80px 0;
     }
 
-    /* Canvas lluvia de palabras */
     .hero-visual {
-      position: relative;
-      height: 100%;
-      min-height: 500px;
-      overflow: hidden;
+      position: relative; height: 100%;
+      min-height: 500px; overflow: hidden;
     }
 
     #typo-rain {
-      position: absolute;
-      top: 0; left: 0;
+      position: absolute; top: 0; left: 0;
       width: 100%; height: 100%;
     }
 
-    /* Nombre encima */
     .hero-name {
       font-family: 'DM Mono', monospace;
-      font-size: 11px;
-      font-weight: 300;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      color: var(--muted);
-      margin-bottom: 10px;
-      display: flex;
-      align-items: center;
-      gap: 12px;
+      font-size: 11px; font-weight: 300;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--muted); margin-bottom: 10px;
+      display: flex; align-items: center; gap: 12px;
     }
 
     .hero-name::before {
-      content: '';
-      display: block;
-      width: 24px;
-      height: 1px;
-      background: var(--gold);
+      content: ''; display: block;
+      width: 24px; height: 1px; background: var(--gold);
     }
 
-    /* Título debajo del nombre */
     .hero-title {
       font-family: 'DM Mono', monospace;
-      font-size: 11px;
-      font-weight: 300;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      color: var(--fg);
-      margin-bottom: 28px;
+      font-size: 11px; font-weight: 300;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--fg); margin-bottom: 28px;
     }
 
     h1 {
       font-family: 'Playfair Display', serif;
-      font-size: 60px;
-      font-weight: 400; 
-      line-height: 1.08;
-      letter-spacing: -0.02em;
-      color: var(--fg);
-      margin-bottom: 24px;
-      max-width: 100%;
+      font-size: 60px; font-weight: 400;
+      line-height: 1.08; letter-spacing: -0.02em;
+      color: var(--fg); margin-bottom: 24px;
     }
 
     h1 em { font-style: italic; color: var(--gold); }
+    .h1-line1 { display: block; white-space: nowrap; }
+    .h1-line2 { display: block; }
 
-    .h1-line1 {
-      display: block;
-      white-space: nowrap;
-    }
-
-    .h1-line2 {
-      display: block;
-    }
-
-    /* ══════════════════════
-       SLOT MACHINE
-    ══════════════════════ */
-
-    /* Ventanita que recorta — solo se ve la palabra activa */
-    /* min-width fijado al ancho de la palabra mas larga (experiences)
-       para que el H1 no cambie de tamaño al rotar */
+    /* ── SLOT MACHINE ── */
     .slot-wrapper {
-      display: inline-block;
-      overflow: hidden;
-      vertical-align: bottom;
-      line-height: inherit;
-      /* el ancho lo calcula JS al inicio segun la palabra mas larga */
+      display: inline-block; overflow: hidden;
+      vertical-align: bottom; line-height: inherit;
     }
 
-    /* La palabra rotante */
     .slot-word {
       display: inline-block;
-      color: var(--gold);
-      font-style: italic;
-      transform: translateY(0);
-      opacity: 1;
+      color: var(--gold); font-style: italic;
     }
 
-    /* Sale hacia arriba */
-    .slot-word.exit {
-      animation: slotExit 0.22s ease-in forwards;
-    }
+    .slot-word.exit  { animation: slotExit  0.22s ease-in forwards; }
+    .slot-word.enter { animation: slotEnter 0.3s cubic-bezier(0.22,1,0.36,1) forwards; }
 
-    /* Entra desde abajo */
-    .slot-word.enter {
-      animation: slotEnter 0.3s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-    }
+    @keyframes slotExit  { to { transform: translateY(-115%); opacity: 0; } }
+    @keyframes slotEnter { from { transform: translateY(115%); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
 
-    @keyframes slotExit {
-      0%   { transform: translateY(0);     opacity: 1; }
-      100% { transform: translateY(-115%); opacity: 0; }
-    }
-
-    @keyframes slotEnter {
-      0%   { transform: translateY(115%);  opacity: 0; }
-      100% { transform: translateY(0);     opacity: 1; }
-    }
-
-    /* ══════════════════════
-       HERO SUB + CTA
-    ══════════════════════ */
+    /* ── HERO SUB + CTA ── */
     .hero-sub {
       font-family: 'DM Sans', sans-serif;
-      font-size: 16px;
-      font-weight: 300;
-      color: var(--fg);
-      line-height: 1.6;
-      max-width: 520px;
-      margin-bottom: 48px;
+      font-size: 16px; font-weight: 300;
+      color: var(--fg); line-height: 1.6;
+      max-width: 520px; margin-bottom: 48px;
     }
 
     .hero-cta { display: flex; align-items: center; gap: 32px; }
 
     .btn-primary {
       font-family: 'DM Mono', monospace;
-      font-size: 11px;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--bg);
-      background: var(--fg);
-      text-decoration: none;
+      font-size: 11px; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--bg);
+      background: var(--fg); text-decoration: none;
       padding: 14px 28px;
       transition: background 0.2s, color 0.2s;
     }
 
     .btn-primary:hover { background: var(--gold); }
 
-    .btn-secondary {
-      font-family: 'DM Mono', monospace;
-      font-size: 11px;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--fg);
-      text-decoration: none;
-      transition: color 0.2s;
-      display: flex;
-      align-items: center;
-      gap: 8px;
+    /* ── fade in ── */
+    .fade-in {
+      opacity: 0; transform: translateY(18px);
+      animation: fadeUp 0.8s ease forwards;
     }
-
-    .btn-secondary:hover { color: var(--gold); }
-    .btn-secondary span { font-size: 14px; }
-
-    /* ── FADE IN entrada de página ── */
-    .fade-in { opacity: 0; transform: translateY(18px); animation: fadeUp 0.8s ease forwards; }
     .fade-in:nth-child(1) { animation-delay: 0.1s; }
     .fade-in:nth-child(2) { animation-delay: 0.25s; }
     .fade-in:nth-child(3) { animation-delay: 0.4s; }
@@ -410,6 +290,174 @@
     .fade-in:nth-child(5) { animation-delay: 0.7s; }
 
     @keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
+
+    /* ══════════════════════════════════════════
+       POPUP — nace del botón, termina centrado
+    ══════════════════════════════════════════ */
+
+    /*
+      Overlay cubre toda la pantalla.
+      El popup está dentro, centrado con flexbox.
+      La animación: transform-origin apunta al botón origen
+      para que visualmente "nazca" de ahí.
+    */
+
+    .popup-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 500;
+      /* Fondo sutil */
+      background: rgba(10, 10, 8, 0.55);
+      backdrop-filter: blur(3px);
+      -webkit-backdrop-filter: blur(3px);
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      /* Estado cerrado */
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+
+    .popup-overlay.open {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    /* Panel del popup — siempre centrado en pantalla */
+    .popup-panel {
+      width: 480px;
+      background: var(--fg);
+      position: relative;
+
+      /*
+        transform-origin se setea por JS según la posición del botón,
+        para que el scale parta desde ahí visualmente.
+      */
+      transform: scale(0.8);
+      opacity: 0;
+      transition:
+        transform 0.42s cubic-bezier(0.22, 1, 0.36, 1),
+        opacity   0.3s ease;
+    }
+
+    .popup-overlay.open .popup-panel {
+      transform: scale(1);
+      opacity: 1;
+    }
+
+    /* Encabezado */
+    .popup-head {
+      padding: 32px 32px 24px;
+      border-bottom: 1px solid rgba(10,10,8,0.08);
+    }
+
+    .popup-eyebrow {
+      font-family: 'DM Mono', monospace;
+      font-size: 9px; font-weight: 300;
+      letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 10px;
+    }
+
+    .popup-heading {
+      font-family: 'Playfair Display', serif;
+      font-size: 28px; font-weight: 400;
+      line-height: 1.15; color: #0a0a08;
+    }
+
+    /* Opciones */
+    .popup-options { padding: 8px 0; }
+
+    .popup-option {
+      display: flex; align-items: center;
+      gap: 16px; padding: 14px 32px;
+      text-decoration: none; color: #0a0a08;
+      background: transparent; border: none;
+      cursor: pointer; width: 100%; text-align: left;
+      transition: background 0.15s;
+    }
+
+    .popup-option:hover { background: rgba(10,10,8,0.04); }
+
+    .popup-icon {
+      width: 40px; height: 40px; flex-shrink: 0;
+      background: rgba(10,10,8,0.07);
+      display: flex; align-items: center; justify-content: center;
+    }
+
+    .popup-icon svg { width: 17px; height: 17px; }
+
+    .popup-text-wrap { flex: 1; }
+
+    .popup-opt-name {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px; font-weight: 400;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      color: #0a0a08;
+      display: flex; align-items: center; gap: 10px;
+    }
+
+    .popup-opt-sub {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13px; font-weight: 300;
+      color: rgba(10,10,8,0.5); margin-top: 3px;
+    }
+
+    .badge {
+      font-family: 'DM Mono', monospace;
+      font-size: 8px; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--green);
+      background: rgba(76,175,118,0.13);
+      padding: 3px 8px;
+    }
+
+    .popup-arrow {
+      font-size: 16px;
+      color: rgba(10,10,8,0.2);
+      transition: transform 0.2s, color 0.2s;
+      flex-shrink: 0;
+    }
+
+    .popup-option:hover .popup-arrow {
+      transform: translate(2px, -2px);
+      color: #0a0a08;
+    }
+
+    /* Footer — leyenda */
+    .popup-footer {
+      padding: 16px 32px;
+      border-top: 1px solid rgba(10,10,8,0.08);
+      display: flex; align-items: flex-start; gap: 10px;
+    }
+
+    .popup-footer svg {
+      width: 14px; height: 14px;
+      flex-shrink: 0; margin-top: 2px;
+      color: var(--green);
+    }
+
+    .popup-footer p {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 12px; font-weight: 300;
+      color: rgba(10,10,8,0.5); line-height: 1.5;
+    }
+
+    .popup-footer p strong {
+      font-weight: 500; color: #0a0a08;
+    }
+
+    /* Cerrar */
+    .popup-close-btn {
+      position: absolute; top: 14px; right: 18px;
+      background: none; border: none; cursor: pointer;
+      color: rgba(10,10,8,0.28); font-size: 16px;
+      line-height: 1; padding: 4px;
+      transition: color 0.2s;
+    }
+
+    .popup-close-btn:hover { color: #0a0a08; }
 
     /* ══════════════════════
        MÓVIL
@@ -422,117 +470,103 @@
       .hero { padding: 0 24px; }
       .status-bar { margin-top: 72px; }
       .hero-body { grid-template-columns: 1fr; }
-      .hero-content { padding: 48px 0 32px; }
+      .hero-content { padding: 48px 0 32px; width: 100%; }
       .hero-visual { display: none; }
 
-      h1 { font-size: clamp(36px, 10vw, 52px); max-width: 100%; }
-      .hero-sub { font-size: 15px; max-width: 100%; }
-      .hero-cta { flex-direction: column; align-items: flex-start; gap: 16px; }
+      h1 { font-size: clamp(36px, 10vw, 52px); }
+      .hero-sub { font-size: 15px; max-width: 100%; width: 100%; }
+
+      .hero-cta {
+        flex-direction: column;
+        align-items: center;
+        gap: 16px; width: 100%;
+      }
+
       .btn-primary { width: 100%; text-align: center; padding: 16px 28px; }
 
+      /* Popup en móvil: ancho completo, pegado al fondo */
+      .popup-overlay {
+        align-items: flex-end;
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
+      }
+
+      .popup-panel {
+        width: 100%;
+        transform: translateY(20px) scale(0.98);
+      }
+
+      .popup-overlay.open .popup-panel {
+        transform: translateY(0) scale(1);
+      }
+
       .city-short { display: none; }
-      .city-long { max-width: 200px !important; opacity: 1 !important; transition: none !important; }
-      .clock-city { opacity: 0.6 !important; }
+      .city-long  { max-width: 200px !important; opacity: 1 !important; transition: none !important; }
+      .clock-city { opacity: 0.7 !important; }
     }
 
     /* ══════════════════════
-       PROFILE SECTION
+       PROFILE
     ══════════════════════ */
-    .profile {
-      background: var(--fg);
-      padding: 120px 48px;
-    }
-
-    .profile-inner {
-      max-width: 1100px;
-      margin: 0 auto;
-    }
-
-    /* Header */
-    .profile-header {
-      margin-bottom: 80px;
-    }
+    .profile { background: var(--fg); padding: 120px 48px; }
+    .profile-inner { max-width: 1100px; margin: 0 auto; }
+    .profile-header { margin-bottom: 80px; }
 
     .profile-tag {
       font-family: 'DM Mono', monospace;
-      font-size: 11px;
-      font-weight: 300;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      color: var(--gold);
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      margin-bottom: 20px;
+      font-size: 11px; font-weight: 300;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--gold); display: flex;
+      align-items: center; gap: 12px; margin-bottom: 20px;
     }
 
     .profile-tag::before {
-      content: '';
-      display: block;
-      width: 24px;
-      height: 1px;
-      background: var(--gold);
+      content: ''; display: block;
+      width: 24px; height: 1px; background: var(--gold);
     }
 
     .profile-h2 {
       font-family: 'Playfair Display', serif;
-      font-size: 56px;
-      font-weight: 400;
-      line-height: 1.08;
-      letter-spacing: -0.02em;
+      font-size: 56px; font-weight: 400;
+      line-height: 1.08; letter-spacing: -0.02em;
       color: var(--bg);
     }
 
-    /* Chapters grid */
     .profile-chapters {
-      display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
+      display: grid; grid-template-columns: 1fr 1fr 1fr;
       gap: 48px;
       border-top: 1px solid rgba(10,10,8,0.1);
       padding-top: 56px;
     }
 
     .chapter-label {
-      display: flex;
-      align-items: baseline;
-      gap: 10px;
-      margin-bottom: 24px;
+      display: flex; align-items: baseline;
+      gap: 10px; margin-bottom: 24px;
     }
 
     .chapter-num {
       font-family: 'DM Mono', monospace;
-      font-size: 10px;
-      font-weight: 300;
-      letter-spacing: 0.12em;
-      color: var(--gold);
+      font-size: 10px; font-weight: 300;
+      letter-spacing: 0.12em; color: var(--gold);
     }
 
     .chapter-title {
       font-family: 'DM Mono', monospace;
-      font-size: 11px;
-      font-weight: 400;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
+      font-size: 11px; font-weight: 400;
+      letter-spacing: 0.12em; text-transform: uppercase;
       color: var(--bg);
     }
 
     .chapter-body p {
       font-family: 'DM Sans', sans-serif;
-      font-size: 15px;
-      font-weight: 300;
-      line-height: 1.75;
-      color: rgba(10,10,8,0.75);
+      font-size: 15px; font-weight: 300;
+      line-height: 1.75; color: rgba(10,10,8,0.75);
       margin-bottom: 16px;
     }
 
     .chapter-body p:last-child { margin-bottom: 0; }
+    .chapter-body strong { font-weight: 500; color: var(--bg); }
 
-    .chapter-body strong {
-      font-weight: 500;
-      color: var(--bg);
-    }
-
-    /* Mobile */
     @media (max-width: 768px) {
       .profile { padding: 80px 24px; }
       .profile-h2 { font-size: 36px; }
@@ -544,75 +578,128 @@
        FOOTER
     ══════════════════════ */
     .site-footer {
-      background: var(--fg);
-      padding: 24px 48px;
+      background: var(--fg); padding: 24px 48px;
       border-top: 1px solid rgba(10,10,8,0.1);
-      display: flex;
-      align-items: center;
+      display: flex; align-items: center;
       justify-content: space-between;
     }
 
     .footer-copy {
       font-family: 'DM Mono', monospace;
-      font-size: 10px;
-      font-weight: 300;
-      letter-spacing: 0.1em;
-      color: rgba(10,10,8,0.4);
+      font-size: 10px; font-weight: 300;
+      letter-spacing: 0.1em; color: rgba(10,10,8,0.4);
     }
-
-    .footer-top {
-      font-family: 'DM Mono', monospace;
-      font-size: 10px;
-      font-weight: 300;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: rgba(10,10,8,0.4);
-      text-decoration: none;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      transition: color 0.2s;
-    }
-
-    .footer-top:hover { color: var(--bg); }
-
-    .footer-top svg {
-      width: 14px;
-      height: 14px;
-      transition: transform 0.2s;
-    }
-
-    .footer-top:hover svg { transform: translateY(-2px); }
 
     .footer-linkedin {
       font-family: 'DM Mono', monospace;
-      font-size: 10px;
-      font-weight: 300;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: rgba(10,10,8,0.4);
-      text-decoration: none;
-      display: flex;
-      align-items: center;
-      gap: 7px;
+      font-size: 10px; font-weight: 300;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: rgba(10,10,8,0.4); text-decoration: none;
+      display: flex; align-items: center; gap: 7px;
       transition: color 0.2s;
     }
 
     .footer-linkedin:hover { color: var(--bg); }
+    .footer-linkedin svg { width: 13px; height: 13px; }
 
-    .footer-linkedin svg {
-      width: 13px;
-      height: 13px;
-      flex-shrink: 0;
+    .footer-top {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px; font-weight: 300;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: rgba(10,10,8,0.4); text-decoration: none;
+      display: flex; align-items: center; gap: 8px;
+      transition: color 0.2s;
     }
 
+    .footer-top:hover { color: var(--bg); }
+    .footer-top svg { width: 14px; height: 14px; transition: transform 0.2s; }
+    .footer-top:hover svg { transform: translateY(-2px); }
+
     @media (max-width: 768px) {
-      .site-footer { padding: 20px 24px; gap: 16px; flex-wrap: wrap; justify-content: center; }
+      .site-footer {
+        padding: 20px 24px; gap: 16px;
+        flex-wrap: wrap; justify-content: center;
+      }
       .footer-copy { width: 100%; text-align: center; }
     }
   </style>
 </head>
 <body>
+
+  <!-- ══════════════════════════════
+       POPUP — fixed, centrado siempre
+  ══════════════════════════════ -->
+  <div class="popup-overlay" id="popupOverlay">
+    <div class="popup-panel" id="popupPanel" role="dialog" aria-modal="true">
+
+      <button class="popup-close-btn" id="popupClose" aria-label="Cerrar">✕</button>
+
+      <div class="popup-head">
+        <div class="popup-eyebrow">Contact</div>
+        <div class="popup-heading">Let's build<br>something great.</div>
+      </div>
+
+      <div class="popup-options">
+
+        <!-- WhatsApp — preferido -->
+        <a href="https://wa.me/525532745219" target="_blank" rel="noopener" class="popup-option">
+          <div class="popup-icon">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+              <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/>
+            </svg>
+          </div>
+          <div class="popup-text-wrap">
+            <div class="popup-opt-name">
+              WhatsApp
+              <span class="badge">Preferred</span>
+            </div>
+            <div class="popup-opt-sub">+52 55 3274 5219</div>
+          </div>
+          <span class="popup-arrow">↗</span>
+        </a>
+
+        <!-- LinkedIn -->
+        <a href="https://www.linkedin.com/in/franciscomina/" target="_blank" rel="noopener" class="popup-option">
+          <div class="popup-icon">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+              <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+            </svg>
+          </div>
+          <div class="popup-text-wrap">
+            <div class="popup-opt-name">LinkedIn</div>
+            <div class="popup-opt-sub">franciscomina</div>
+          </div>
+          <span class="popup-arrow">↗</span>
+        </a>
+
+        <!-- Email -->
+        <a href="mailto:franksyrup.media@gmail.com" class="popup-option">
+          <div class="popup-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="4" width="20" height="16" rx="2"/>
+              <path d="M2 7l10 7 10-7"/>
+            </svg>
+          </div>
+          <div class="popup-text-wrap">
+            <div class="popup-opt-name">Email</div>
+            <div class="popup-opt-sub">franksyrup.media@gmail.com</div>
+          </div>
+          <span class="popup-arrow">↗</span>
+        </a>
+
+      </div>
+
+      <!-- Leyenda respuesta rápida -->
+      <div class="popup-footer">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="8" cy="8" r="7"/>
+          <path d="M8 4v4l2.5 1.5"/>
+        </svg>
+        <p>Para una <strong>respuesta más rápida</strong>, escríbeme por WhatsApp o llámame directo al <strong>+52 55 3274 5219</strong>.</p>
+      </div>
+
+    </div>
+  </div>
 
   <!-- NAV -->
   <nav>
@@ -622,7 +709,7 @@
     <ul class="nav-links">
       <li><a href="cases.html">Cases</a></li>
       <li><a href="about.html">About</a></li>
-      <li><a href="#" id="nav-contact">Let's talk</a></li>
+      <li><button class="js-letstalk" id="navLetstalk">Let's talk</button></li>
     </ul>
     <button class="hamburger" id="hamburger" aria-label="Menu">
       <span></span><span></span><span></span>
@@ -633,7 +720,7 @@
   <div class="mobile-menu" id="mobileMenu">
     <a href="cases.html" onclick="closeMenu()">Cases</a>
     <a href="about.html" onclick="closeMenu()">About</a>
-    <a href="#" id="mobile-contact" onclick="closeMenu()">Let's talk</a>
+    <button class="js-letstalk" onclick="closeMenu()">Let's talk</button>
   </div>
 
   <!-- HERO -->
@@ -643,9 +730,7 @@
         <span class="dot"></span>
         Available for new projects
         <span class="check-icon">
-          <svg viewBox="0 0 13 13" xmlns="http://www.w3.org/2000/svg">
-            <path d="M2 6.5 L5.5 10 L11 3.5" />
-          </svg>
+          <svg viewBox="0 0 13 13"><path d="M2 6.5 L5.5 10 L11 3.5" /></svg>
         </span>
       </div>
       <div class="clock-item">
@@ -659,13 +744,9 @@
 
     <div class="hero-body">
       <div class="hero-content">
-        <!-- Nombre -->
         <p class="hero-name fade-in">Francisco Miranda</p>
-
-        <!-- Título -->
         <p class="hero-title fade-in">Product Designer & Digital Builder</p>
 
-        <!-- H1 con slot machine en "products" -->
         <h1 class="fade-in">
           <span class="h1-line1">Designing <span class="slot-wrapper"><span class="slot-word" id="slot">products</span></span></span>
           <span class="h1-line2">people <em>actually</em> use.</span>
@@ -674,24 +755,22 @@
         <p class="hero-sub fade-in">
           Shaping digital products from Mexico City — UX/UI design, digital services, web apps, platforms & AI-driven experiences.
         </p>
+
+        <!-- Solo "View Cases" — Let's talk se quitó del hero -->
         <div class="hero-cta fade-in">
           <a href="cases.html" class="btn-primary">View Cases</a>
-          <a href="#" id="cta-contact" class="btn-secondary">
-            Let's talk <span>↗</span>
-          </a>
         </div>
       </div>
 
-      <!-- Visual: lluvia de palabras -->
       <div class="hero-visual">
         <canvas id="typo-rain"></canvas>
       </div>
     </div>
+  </section>
 
-  <!-- PROFILE SECTION -->
+  <!-- PROFILE -->
   <section class="profile">
     <div class="profile-inner">
-
       <div class="profile-header">
         <span class="profile-tag">My Profile</span>
         <h2 class="profile-h2">A designer shaped<br>by two cities.</h2>
@@ -699,7 +778,6 @@
 
       <div class="profile-chapters">
 
-        <!-- Capítulo 1: Origen -->
         <div class="chapter">
           <div class="chapter-label">
             <span class="chapter-num">01</span>
@@ -707,11 +785,10 @@
           </div>
           <div class="chapter-body">
             <p>It started in Los Angeles — not with pixels, but with people. Working at advertising agencies focused on restaurants, I learned that design is really about creating an experience someone feels before they can describe it. The ambiance, the menu layout, the moment a dish arrives: every detail is a decision.</p>
-            <p>When the web began to take shape and UX/UI emerged as a discipline, I recognized the same instinct. I had mentors who pushed me to think beyond screens — to ask what the experience should feel like, then build backward from there. That's when I started designing websites and digital experiences that matched the quality of the in-person service they represented.</p>
+            <p>When the web began to take shape and UX/UI emerged as a discipline, I recognized the same instinct. I had mentors who pushed me to think beyond screens — to ask what the experience should feel like, then build backward from there.</p>
           </div>
         </div>
 
-        <!-- Capítulo 2: Hoy -->
         <div class="chapter">
           <div class="chapter-label">
             <span class="chapter-num">02</span>
@@ -719,12 +796,10 @@
           </div>
           <div class="chapter-body">
             <p>14 years later, I'm a Sr. Product Designer at BBVA México — leading end-to-end design for the public app, public web, and enterprise web used by millions of people. My background in graphic design gives me an edge in visual quality; my years in digital give me the systems thinking to back it up.</p>
-            <p>I specialize in digital banking: information architecture, interactive prototypes, and visual design that earns trust at scale. I work inside Agile teams alongside POs, Scrum Masters, stakeholders, and engineers — moving fast without losing craft.</p>
             <p>I also integrate AI across my entire design process: ideation, UX writing, research, asset generation, and accelerated prototyping. It's not a tool I use occasionally — it's woven into how I work every day.</p>
           </div>
         </div>
 
-        <!-- Capítulo 3: Lo que viene -->
         <div class="chapter">
           <div class="chapter-label">
             <span class="chapter-num">03</span>
@@ -739,12 +814,13 @@
       </div>
     </div>
   </section>
+
   <!-- FOOTER -->
   <footer class="site-footer">
     <span class="footer-copy">&copy; 2026 Frank's Office</span>
 
     <a href="https://www.linkedin.com/in/franciscomina/" target="_blank" rel="noopener" class="footer-linkedin">
-      <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+      <svg viewBox="0 0 24 24" fill="currentColor">
         <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
       </svg>
       LinkedIn
@@ -752,34 +828,26 @@
 
     <a href="#" class="footer-top" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;">
       Back to top
-      <svg viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <svg viewBox="0 0 14 14" fill="none">
         <path d="M7 11V3M3 6l4-4 4 4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
       </svg>
     </a>
   </footer>
 
   <script>
-    // ── Email ──
-    const u = 'hola';
-    const d = 'frankmina.com';
-    const mailto = 'mailto:' + u + '@' + d;
-    document.getElementById('nav-contact').href = mailto;
-    document.getElementById('mobile-contact').href = mailto;
-    document.getElementById('cta-contact').href = mailto;
-
-    // ── Reloj ──
+    /* ── Reloj ── */
     function updateClocks() {
-      const now = new Date();
-      document.getElementById('clock-cdmx').textContent = new Intl.DateTimeFormat('en', {
-        timeZone: 'America/Mexico_City',
-        hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false
-      }).format(now);
+      document.getElementById('clock-cdmx').textContent =
+        new Intl.DateTimeFormat('en', {
+          timeZone: 'America/Mexico_City',
+          hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false
+        }).format(new Date());
     }
     updateClocks();
     setInterval(updateClocks, 1000);
 
-    // ── Hamburger ──
-    const hamburger = document.getElementById('hamburger');
+    /* ── Hamburger ── */
+    const hamburger  = document.getElementById('hamburger');
     const mobileMenu = document.getElementById('mobileMenu');
 
     hamburger.addEventListener('click', () => {
@@ -794,7 +862,70 @@
       document.body.style.overflow = '';
     }
 
-    // ── Lluvia de palabras ──
+    /* ══════════════════════════════════════════
+       POPUP
+       - El panel siempre está centrado (flexbox en overlay)
+       - transform-origin se ajusta por JS para que la animación
+         de scale "nazca" visualmente desde el botón que disparó
+    ══════════════════════════════════════════ */
+    const overlay  = document.getElementById('popupOverlay');
+    const panel    = document.getElementById('popupPanel');
+    const closeBtn = document.getElementById('popupClose');
+
+    function openPopup(triggerEl) {
+      /* Calcula desde dónde nace la animación */
+      if (triggerEl) {
+        const r  = triggerEl.getBoundingClientRect();
+        const pw = panel.offsetWidth  || 480;
+        const ph = panel.offsetHeight || 340;
+        const vw = window.innerWidth;
+        const vh = window.innerHeight;
+
+        /* Centro del botón relativo al centro del viewport */
+        const btnCX = r.left + r.width  / 2;
+        const btnCY = r.top  + r.height / 2;
+
+        /* Centro del panel (siempre centrado en viewport) */
+        const panCX = vw / 2;
+        const panCY = vh / 2;
+
+        /* transform-origin: dónde dentro del panel corresponde al botón */
+        const ox = 50 + ((btnCX - panCX) / pw) * 100;
+        const oy = 50 + ((btnCY - panCY) / ph) * 100;
+
+        panel.style.transformOrigin = `${ox}% ${oy}%`;
+      }
+
+      overlay.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closePopup() {
+      overlay.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    /* Todos los triggers abren el popup */
+    document.querySelectorAll('.js-letstalk').forEach(el => {
+      el.addEventListener('click', e => {
+        e.preventDefault();
+        closeMenu();
+        openPopup(el);
+      });
+    });
+
+    closeBtn.addEventListener('click', closePopup);
+
+    /* Click en overlay (fuera del panel) cierra */
+    overlay.addEventListener('click', e => {
+      if (e.target === overlay) closePopup();
+    });
+
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') closePopup();
+    });
+
+    /* ── Lluvia de palabras ── */
     (function() {
       const canvas = document.getElementById('typo-rain');
       if (!canvas) return;
@@ -807,9 +938,7 @@
       resize();
       window.addEventListener('resize', resize);
 
-      const GOLD  = '#c8a94a';
-      const GREEN = '#4caf76';
-      const FG    = 'rgba(240,237,230,';
+      const GOLD = '#c8a94a', GREEN = '#4caf76', FG = 'rgba(240,237,230,';
 
       const wordList = [
         'UX','UI','Design','Code','API','Build','Flow','Grid',
@@ -826,14 +955,13 @@
 
       function initDrops() {
         const W = canvas.width, H = canvas.height;
-        const cols = 14;
-        const colW = W / cols;
+        const cols = 14, colW = W / cols;
         drops = [];
         for (let i = 0; i < cols * 2; i++) {
           const col = i % cols;
           drops.push({
             word:  wordList[Math.floor(Math.random() * wordList.length)],
-            x:     col * colW + Math.random() * (colW * 0.5),
+            x:     col * colW + Math.random() * colW * 0.5,
             y:     Math.random() * H,
             speed: 0.28 + Math.random() * 0.5,
             alpha: 0.07 + Math.random() * 0.48,
@@ -858,7 +986,7 @@
         drops.forEach((d, i) => {
           d.y += d.speed;
           if (d.y > H + 30) {
-            d.y     = -20 - Math.random() * 60;
+            d.y = -20 - Math.random() * 60;
             d.word  = wordList[Math.floor(Math.random() * wordList.length)];
             d.alpha = 0.07 + Math.random() * 0.48;
             d.speed = 0.28 + Math.random() * 0.5;
@@ -870,74 +998,57 @@
           ctx.save();
           ctx.globalAlpha = d.alpha * flicker;
           ctx.fillStyle   = d.color ? d.color : FG + '0.65)';
-          ctx.font        = (d.mono ? '300 ' : '400 ') + d.size + 'px ' +
-                            (d.mono ? "'DM Mono', monospace" : "'DM Sans', sans-serif");
+          ctx.font = (d.mono ? '300 ' : '400 ') + d.size + 'px ' +
+                     (d.mono ? "'DM Mono', monospace" : "'DM Sans', sans-serif");
           ctx.fillText(d.word, d.x, d.y);
           ctx.restore();
         });
 
-        // Vignette lateral izquierda para fundirse con el texto
         const vL = ctx.createLinearGradient(0, 0, W * 0.22, 0);
         vL.addColorStop(0, 'rgba(10,10,8,0.95)');
         vL.addColorStop(1, 'rgba(10,10,8,0)');
-        ctx.fillStyle = vL;
-        ctx.fillRect(0, 0, W * 0.22, H);
+        ctx.fillStyle = vL; ctx.fillRect(0, 0, W * 0.22, H);
 
-        // Vignette top y bottom
         const vT = ctx.createLinearGradient(0, 0, 0, H * 0.18);
         vT.addColorStop(0, 'rgba(10,10,8,0.9)');
         vT.addColorStop(1, 'rgba(10,10,8,0)');
-        ctx.fillStyle = vT;
-        ctx.fillRect(0, 0, W, H * 0.18);
+        ctx.fillStyle = vT; ctx.fillRect(0, 0, W, H * 0.18);
 
         const vB = ctx.createLinearGradient(0, H * 0.82, 0, H);
         vB.addColorStop(0, 'rgba(10,10,8,0)');
         vB.addColorStop(1, 'rgba(10,10,8,0.9)');
-        ctx.fillStyle = vB;
-        ctx.fillRect(0, H * 0.82, W, H * 0.18);
+        ctx.fillStyle = vB; ctx.fillRect(0, H * 0.82, W, H * 0.18);
 
         requestAnimationFrame(draw);
       }
       requestAnimationFrame(draw);
     })();
 
-    // ── Slot Machine ──
-    const words = ['products', 'experiences', 'services'];
-    let current = 0;
-
-    const slotEl   = document.getElementById('slot');
+    /* ── Slot Machine ── */
+    const words     = ['products', 'experiences', 'services'];
+    let current     = 0;
+    const slotEl    = document.getElementById('slot');
     const wrapperEl = slotEl.parentElement;
 
-    // Medir el ancho real de cada palabra en Playfair Display 60px
-    // y fijar el wrapper al ancho de la más larga
     (function() {
       const tmp = document.createElement('span');
       tmp.style.cssText = 'position:absolute;visibility:hidden;white-space:nowrap;' +
         'font-family:Playfair Display,serif;font-size:60px;font-weight:400;letter-spacing:-0.02em;';
       document.body.appendChild(tmp);
       let maxW = 0;
-      words.forEach(w => {
-        tmp.textContent = w;
-        if (tmp.offsetWidth > maxW) maxW = tmp.offsetWidth;
-      });
+      words.forEach(w => { tmp.textContent = w; if (tmp.offsetWidth > maxW) maxW = tmp.offsetWidth; });
       document.body.removeChild(tmp);
-      wrapperEl.style.width = (maxW + 12) + 'px'; /* +12px buffer para que no se corte */
+      wrapperEl.style.width = (maxW + 12) + 'px';
     })();
 
     function nextWord() {
       const nextIndex = (current + 1) % words.length;
-
-      // 1. La palabra actual sale hacia arriba
       slotEl.classList.add('exit');
-
       slotEl.addEventListener('animationend', function onExit() {
         slotEl.removeEventListener('animationend', onExit);
-
-        // 2. Cambia el texto y entra desde abajo
         slotEl.textContent = words[nextIndex];
         slotEl.classList.remove('exit');
         slotEl.classList.add('enter');
-
         slotEl.addEventListener('animationend', function onEnter() {
           slotEl.removeEventListener('animationend', onEnter);
           slotEl.classList.remove('enter');
@@ -946,11 +1057,7 @@
       });
     }
 
-    // Primera vez después de 2.5s, luego cada 2.5s
-    setTimeout(() => {
-      nextWord();
-      setInterval(nextWord, 2500);
-    }, 2500);
+    setTimeout(() => { nextWord(); setInterval(nextWord, 2500); }, 2500);
   </script>
 </body>
 </html>

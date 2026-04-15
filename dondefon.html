@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DondéFon — Frank Miranda</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=DM+Mono:wght@300;400&family=DM+Sans:wght@300;400;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:      #0a0a08;
+      --fg:      #f0ede6;
+      --muted:   #6b6860;
+      --gold:    #c8a94a;
+      --text:    #0a0a08;
+      --subtle:  #999590;
+      --divider: #e8e6e2;
+      --pad:     48px;
+    }
+
+    html, body {
+      background: #ffffff;
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    /* ════════════════════════
+       NAV — blanco fijo
+    ════════════════════════ */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 28px var(--pad);
+      background: #ffffff;
+      border-bottom: 1px solid var(--divider);
+    }
+
+    .nav-logo img {
+      height: 28px;
+      width: auto;
+      opacity: 0.95;
+      filter: invert(1);
+    }
+
+    .nav-links { display: flex; gap: 36px; list-style: none; }
+
+    .nav-links a {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      font-weight: 300;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--subtle);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--text); }
+
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      padding: 4px;
+      background: none;
+      border: none;
+    }
+
+    .hamburger span {
+      display: block;
+      width: 22px;
+      height: 1px;
+      background: var(--text);
+      transition: transform 0.3s ease, opacity 0.3s ease;
+      transform-origin: center;
+    }
+
+    .hamburger.open span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
+
+    .mobile-menu {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      z-index: 99;
+      background: #ffffff;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 40px;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .mobile-menu.open { display: flex; opacity: 1; }
+
+    .mobile-menu a {
+      font-family: 'Playfair Display', serif;
+      font-size: 36px;
+      color: var(--subtle);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .mobile-menu a:hover { color: var(--text); }
+
+    /* ════════════════════════
+       BACK
+    ════════════════════════ */
+    .back-wrap {
+      padding: 112px var(--pad) 0;
+    }
+
+    .back-link {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--subtle);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: color 0.2s;
+    }
+
+    .back-link:hover { color: var(--text); }
+
+    /* ════════════════════════
+       SECCIONES — 2 columnas
+    ════════════════════════ */
+    .case-content {
+      padding: 48px 0 100px;
+      display: flex;
+      flex-direction: column;
+      gap: 48px;
+    }
+
+    .case-section {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+      align-items: start;
+      border-top: 1px solid var(--divider);
+      padding-top: 48px;
+      padding-left: var(--pad);
+      padding-right: var(--pad);
+    }
+
+    .col-left {
+      padding-right: 48px;
+    }
+
+    .col-right {
+      padding-left: 0;
+    }
+
+    .col-img img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .col-img.img-contained {
+      display: flex;
+      align-items: flex-start;
+      justify-content: flex-start;
+    }
+
+    .col-img.img-contained img {
+      max-width: 100%;
+      width: auto;
+    }
+
+    /* ── Tipografía ── */
+    .section-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--subtle);
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .section-label::before {
+      content: '';
+      display: block;
+      width: 16px;
+      height: 1px;
+      background: var(--gold);
+      flex-shrink: 0;
+    }
+
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(22px, 2.5vw, 32px);
+      font-weight: 400;
+      line-height: 1.2;
+      letter-spacing: -0.01em;
+      color: var(--text);
+      margin-bottom: 20px;
+    }
+
+    .section-body {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 15px;
+      font-weight: 300;
+      color: #555250;
+      line-height: 1.75;
+      margin-bottom: 20px;
+    }
+
+    .section-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-bottom: 20px;
+    }
+
+    .section-list li {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      font-weight: 400;
+      color: #555250;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      line-height: 1.5;
+    }
+
+    .section-list li::before {
+      content: '';
+      display: block;
+      width: 14px;
+      height: 1px;
+      background: var(--subtle);
+      flex-shrink: 0;
+    }
+
+    .services-label {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 8px;
+      margin-top: 24px;
+    }
+
+    .services-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .services-list li {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      font-weight: 300;
+      color: #555250;
+      line-height: 1.6;
+    }
+
+    /* ════════════════════════
+       FOOTER
+    ════════════════════════ */
+    .case-footer {
+      padding: 56px var(--pad);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-top: 1px solid var(--divider);
+    }
+
+    .case-footer a {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--subtle);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .case-footer a:hover { color: var(--text); }
+
+    /* ════════════════════════
+       RESPONSIVE
+    ════════════════════════ */
+    @media (max-width: 768px) {
+      :root { --pad: 24px; }
+
+      nav { padding: 20px var(--pad); }
+      .nav-links { display: none; }
+      .hamburger { display: flex; }
+
+      .back-wrap { padding-top: 100px; }
+
+      .case-section {
+        grid-template-columns: 1fr;
+        gap: 32px;
+      }
+
+      .col-left { padding-right: 0; }
+
+      .case-footer {
+        flex-direction: column;
+        gap: 24px;
+        align-items: flex-start;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a class="nav-logo" href="cases.html">
+      <img src="FM_logo_bco.png" alt="Frank Miranda" />
+    </a>
+    <ul class="nav-links">
+      <li><a href="cases.html">Cases</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="#" id="nav-contact">Contact</a></li>
+    </ul>
+    <button class="hamburger" id="hamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="cases.html" onclick="closeMenu()">Cases</a>
+    <a href="about.html" onclick="closeMenu()">About</a>
+    <a href="#" id="mobile-contact" onclick="closeMenu()">Contact</a>
+  </div>
+
+  <!-- BACK -->
+  <div class="back-wrap">
+    <a href="cases.html" class="back-link">← Back to work</a>
+  </div>
+
+  <!-- CONTENIDO -->
+  <div class="case-content">
+
+    <!-- SECCIÓN 01 — Mockup izq, overview + servicios der -->
+    <div class="case-section">
+      <div class="col-left col-img">
+        <img src="assets/cases/dondefon/dondefon 01.png" alt="DondéFon — mockups" />
+      </div>
+      <div class="col-right">
+        <p class="section-body">
+          DondéFon is a new product within the Dondé Services family — a mobile platform that gives customers the power to buy a new phone on credit, purchase a used phone, or pawn their current device for instant cash.
+        </p>
+        <p class="section-body">
+          We also designed an internal tool for Dondé Staff: a platform that allows agents to create customer profiles, manage existing accounts, and generate quotes for down payments and monthly installments — all from one place.
+        </p>
+        <p class="services-label">Services</p>
+        <ul class="services-list">
+          <li>Product Design</li>
+          <li>UX Research</li>
+          <li>Brand Identity</li>
+          <li>App Store Assets</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- SECCIÓN 02 — Texto izq, imagen der -->
+    <div class="case-section">
+      <div class="col-left">
+        <p class="section-label">Research</p>
+        <h2 class="section-title">Understanding the market and the real user.</h2>
+        <p class="section-body">
+          We began with a comprehensive review of existing literature, market trends, and competitor products — analyzing similar platforms to identify gaps, opportunities, and potential improvements.
+        </p>
+        <p class="section-body">
+          We defined the scope of the project, including target audience, market segment, and the core problem the product needed to solve. This phase involved in-depth interviews with stakeholders, clients, end-users, and internal teams.
+        </p>
+      </div>
+      <div class="col-right col-img">
+        <img src="assets/cases/dondefon/dondefon 02.png" alt="DondéFon — research" />
+      </div>
+    </div>
+
+    <!-- SECCIÓN 03 — Imagen izq, texto der -->
+    <div class="case-section">
+      <div class="col-left col-img img-contained">
+        <img src="assets/cases/dondefon/dondefon 03.png" alt="DondéFon — ideation" />
+      </div>
+      <div class="col-right">
+        <p class="section-label">Ideation</p>
+        <h2 class="section-title">From rough sketches to refined concepts.</h2>
+        <p class="section-body">
+          We developed low-fidelity prototypes to gather early feedback on basic functionalities and core concepts — iterating rapidly based on user input and refining the prototype with each cycle.
+        </p>
+        <ul class="section-list">
+          <li>Early sketches during brainstorming sessions</li>
+          <li>Design system built on an existing platform</li>
+          <li>Concepts validated against market trends</li>
+          <li>Continuous feedback loops with internal teams</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- SECCIÓN 04 — Texto izq, imagen der -->
+    <div class="case-section">
+      <div class="col-left">
+        <p class="section-label">Competitive Analysis</p>
+        <h2 class="section-title">Finding the gap the market wasn't filling.</h2>
+        <p class="section-body">
+          Existing solutions had critical blind spots: payment and movement sections functioned — but barely. Information was accurate, yet rarely clear or consistent.
+        </p>
+        <p class="section-body">
+          In financial contexts, that gap is fatal: <strong>when the user doesn't understand, they disengage.</strong> This insight shaped the entire design direction — clarity and confidence at every touchpoint became non-negotiable principles for DondéFon.
+        </p>
+      </div>
+      <div class="col-right col-img">
+        <img src="assets/cases/dondefon/dondefon 04.png" alt="DondéFon — competitive analysis" />
+      </div>
+    </div>
+
+    <!-- SECCIÓN 05 — Imagen izq, texto der -->
+    <div class="case-section">
+      <div class="col-left col-img img-contained">
+        <img src="assets/cases/dondefon/dondefon 05.png" alt="DondéFon — user flows and service blueprint" />
+      </div>
+      <div class="col-right">
+        <p class="section-label">User Flows & Service Blueprint</p>
+        <h2 class="section-title">Mapping every step — digital and physical.</h2>
+        <p class="section-body">
+          The user flows were built from real conversations — interviews conducted with actual customers of the Dondé Móvil pawn shops. We mapped their behaviors, frustrations, and expectations across every touchpoint, translating those insights into detailed flow diagrams that covered each decision point in the product.
+        </p>
+        <p class="section-body">
+          In parallel, we developed a Service Blueprint to be deployed across Dondé's physical branches — defining how staff would interact with the platform at each step, aligning the digital experience with the in-store reality.
+        </p>
+      </div>
+    </div>
+
+    <!-- SECCIÓN 06 — Texto izq, imagen der -->
+    <div class="case-section">
+      <div class="col-left">
+        <p class="section-label">Iterations & Handoff</p>
+        <h2 class="section-title">Tested, refined, and ready for development.</h2>
+        <p class="section-body">
+          The design went through multiple rounds of testing and feedback sessions, ensuring the product aligned with business objectives while solving the identified user needs.
+        </p>
+        <p class="section-body">
+          By rigorously following the research process, we were able to validate assumptions, eliminate guesswork, and build a solid foundation for development — creating a product that resonates with users and meets real market demands.
+        </p>
+      </div>
+      <div class="col-right col-img">
+        <img src="assets/cases/dondefon/dondefon 06.png" alt="DondéFon — iterations and handoff" />
+      </div>
+    </div>
+
+    <!-- SECCIÓN 07 — Imagen izq, texto der -->
+    <div class="case-section">
+      <div class="col-left col-img img-contained">
+        <img src="assets/cases/dondefon/dondefon 07.png" alt="DondéFon — creating the logo" />
+      </div>
+      <div class="col-right">
+        <p class="section-label">Creating the Logo</p>
+        <h2 class="section-title">Built from scratch — identity as a creative challenge.</h2>
+        <p class="section-body">
+          DondéFon's visual identity was a blank canvas. Starting from zero, we explored concepts, directions, and references before committing to a design language that felt both ownable and aligned with the Dondé family ecosystem.
+        </p>
+        <p class="section-body">
+          The process was genuinely creative — sketching, iterating, and refining until the logo communicated trust, accessibility, and a fresh energy that distinguished DondéFon from its competitors. Every color, weight, and form was a deliberate decision.
+        </p>
+      </div>
+    </div>
+
+    <!-- SECCIÓN 08 — Texto izq, imagen der -->
+    <div class="case-section">
+      <div class="col-left">
+        <p class="section-label">App Store Media</p>
+        <h2 class="section-title">Designed for the shelves of Google Play & App Store.</h2>
+        <p class="section-body">
+          Getting an app published isn't just about the product — it's about presenting it. We created all the visual assets required by both Google Play and the Apple App Store: screenshots, feature graphics, and promotional imagery formatted to each platform's exact specifications.
+        </p>
+        <p class="section-body">
+          Every image was crafted to communicate the app's value at a glance — because in a crowded marketplace, the store listing is the first impression.
+        </p>
+      </div>
+      <div class="col-right col-img">
+        <img src="assets/cases/dondefon/dondefon 08.png" alt="DondéFon — app store media" />
+      </div>
+    </div>
+
+    <!-- SECCIÓN 09 — Imagen izq, texto der -->
+    <div class="case-section">
+      <div class="col-left col-img img-contained">
+        <img src="assets/cases/dondefon/dondefon 09.png" alt="DondéFon — business rules" />
+      </div>
+      <div class="col-right">
+        <p class="section-label">Creating the Business Rules</p>
+        <h2 class="section-title">The rules that make the product work in the real world.</h2>
+        <p class="section-body">
+          All the printable media produced for the store served a dual purpose: as rules for customers explaining how the service works, and as operational guides for staff at each branch.
+        </p>
+        <p class="section-body">
+          These materials bridged the gap between the digital product and the physical experience — ensuring that every customer interaction, whether on the app or in the store, felt consistent, clear, and trustworthy.
+        </p>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="case-footer">
+    <a href="cases.html">← Back to work</a>
+    <a href="bbva.html">Next case →</a>
+  </footer>
+
+  <script>
+    const u = 'hola';
+    const d = 'frankmina.com';
+    const mailto = 'mailto:' + u + '@' + d;
+    document.getElementById('nav-contact').href = mailto;
+    document.getElementById('mobile-contact').href = mailto;
+
+    const hamburger = document.getElementById('hamburger');
+    const mobileMenu = document.getElementById('mobileMenu');
+
+    hamburger.addEventListener('click', () => {
+      hamburger.classList.toggle('open');
+      mobileMenu.classList.toggle('open');
+      document.body.style.overflow = mobileMenu.classList.contains('open') ? 'hidden' : '';
+    });
+
+    function closeMenu() {
+      hamburger.classList.remove('open');
+      mobileMenu.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+  </script>
+
+</body>
+</html>
