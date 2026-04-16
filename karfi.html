@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Karfi — Frank Miranda</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=DM+Mono:wght@300;400&family=DM+Sans:wght@300;400;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:      #0a0a08;
+      --fg:      #f0ede6;
+      --muted:   #6b6860;
+      --gold:    #c8a94a;
+      --text:    #0a0a08;
+      --subtle:  #999590;
+      --divider: #e8e6e2;
+      --pad:     48px;
+    }
+
+    html, body {
+      background: #ffffff;
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    /* ════════════════════════
+       NAV — blanco fijo
+    ════════════════════════ */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 28px var(--pad);
+      background: #ffffff;
+      border-bottom: 1px solid var(--divider);
+    }
+
+    .nav-logo img {
+      height: 28px;
+      width: auto;
+      opacity: 0.95;
+      filter: invert(1);
+    }
+
+    .nav-links { display: flex; gap: 36px; list-style: none; }
+
+    .nav-links a {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      font-weight: 300;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--subtle);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--text); }
+
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      padding: 4px;
+      background: none;
+      border: none;
+    }
+
+    .hamburger span {
+      display: block;
+      width: 22px;
+      height: 1px;
+      background: var(--text);
+      transition: transform 0.3s ease, opacity 0.3s ease;
+      transform-origin: center;
+    }
+
+    .hamburger.open span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
+
+    .mobile-menu {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      z-index: 99;
+      background: #ffffff;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 40px;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .mobile-menu.open { display: flex; opacity: 1; }
+
+    .mobile-menu a {
+      font-family: 'Playfair Display', serif;
+      font-size: 36px;
+      color: var(--subtle);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .mobile-menu a:hover { color: var(--text); }
+
+    /* ════════════════════════
+       BACK
+    ════════════════════════ */
+    .back-wrap {
+      padding: 112px var(--pad) 0;
+    }
+
+    .back-link {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--subtle);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: color 0.2s;
+    }
+
+    .back-link:hover { color: var(--text); }
+
+    /* ════════════════════════
+       SECCIONES — 2 columnas
+    ════════════════════════ */
+    .case-content {
+      padding: 48px 0 100px;
+      display: flex;
+      flex-direction: column;
+      gap: 48px;
+    }
+
+    .case-section {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+      align-items: start;
+      border-top: 1px solid var(--divider);
+      padding-top: 48px;
+      padding-left: var(--pad);
+      padding-right: var(--pad);
+    }
+
+    .col-left {
+      padding-right: 48px;
+    }
+
+    .col-right {
+      padding-left: 0;
+    }
+
+    /* Imagen a ancho completo */
+    .col-img img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    /* Imagen contenida — mockups de teléfono */
+    .col-img.img-contained {
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+    }
+
+    .col-img.img-contained img {
+      max-height: 520px;
+      width: auto;
+      max-width: 100%;
+      object-fit: contain;
+    }
+
+    /* ── Tipografía ── */
+    .section-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--subtle);
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .section-label::before {
+      content: '';
+      display: block;
+      width: 16px;
+      height: 1px;
+      background: var(--gold);
+      flex-shrink: 0;
+    }
+
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(22px, 2.5vw, 32px);
+      font-weight: 400;
+      line-height: 1.2;
+      letter-spacing: -0.01em;
+      color: var(--text);
+      margin-bottom: 20px;
+    }
+
+    .section-body {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 15px;
+      font-weight: 300;
+      color: #555250;
+      line-height: 1.75;
+      margin-bottom: 20px;
+    }
+
+    .section-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-bottom: 20px;
+    }
+
+    .section-list li {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      font-weight: 400;
+      color: #555250;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      line-height: 1.5;
+    }
+
+    .section-list li::before {
+      content: '';
+      display: block;
+      width: 14px;
+      height: 1px;
+      background: var(--subtle);
+      flex-shrink: 0;
+    }
+
+    .services-label {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 8px;
+      margin-top: 24px;
+    }
+
+    .services-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .services-list li {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      font-weight: 300;
+      color: #555250;
+      line-height: 1.6;
+    }
+
+    /* ════════════════════════
+       FOOTER
+    ════════════════════════ */
+    .case-footer {
+      padding: 56px var(--pad);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-top: 1px solid var(--divider);
+    }
+
+    .case-footer a {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--subtle);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .case-footer a:hover { color: var(--text); }
+
+    /* ════════════════════════
+       RESPONSIVE
+    ════════════════════════ */
+    @media (max-width: 768px) {
+      :root { --pad: 24px; }
+
+      nav { padding: 20px var(--pad); }
+      .nav-links { display: none; }
+      .hamburger { display: flex; }
+
+      .back-wrap { padding-top: 100px; }
+
+      .case-section {
+        grid-template-columns: 1fr;
+        gap: 32px;
+      }
+
+      .col-left { padding-right: 0; }
+
+      .col-img.img-contained img {
+        max-height: 380px;
+      }
+
+      .case-footer {
+        flex-direction: column;
+        gap: 24px;
+        align-items: flex-start;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a class="nav-logo" href="cases.html">
+      <img src="FM_logo_bco.png" alt="Frank Miranda" />
+    </a>
+    <ul class="nav-links">
+      <li><a href="cases.html">Cases</a></li>
+      <li><a href="index.html#about">About</a></li>
+      <li><a href="#" id="nav-contact">Contact</a></li>
+    </ul>
+    <button class="hamburger" id="hamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="cases.html" onclick="closeMenu()">Cases</a>
+    <a href="index.html#about" onclick="closeMenu()">About</a>
+    <a href="#" id="mobile-contact" onclick="closeMenu()">Contact</a>
+  </div>
+
+  <!-- BACK -->
+  <div class="back-wrap">
+    <a href="cases.html" class="back-link">← Back to work</a>
+  </div>
+
+  <!-- CONTENIDO -->
+  <div class="case-content">
+
+    <!-- INTRO — karfi 01 izq, overview der -->
+    <div class="case-section">
+      <div class="col-left col-img img-contained">
+        <img src="assets/cases/karfi/karfi 01.png" alt="Karfi — overview" />
+      </div>
+      <div class="col-right">
+        <p class="section-label">Product Design — App / Web</p>
+        <h2 class="section-title">Karfi — Nails at Your Door.</h2>
+        <p class="section-body">
+          Karfi is an on-demand beauty service platform connecting clients with professional nail technicians who come directly to them. As the product designer on the project, I was responsible for the full design scope — from brand identity and UX research through to the final web and app experience.
+        </p>
+        <p class="section-body">
+          Built in close collaboration with a developer, Karfi went from concept to a fully functional product ready for the market.
+        </p>
+        <p class="services-label">Services</p>
+        <ul class="services-list">
+          <li>Product Design</li>
+          <li>Web Design</li>
+          <li>App Design</li>
+          <li>Brand Identity</li>
+          <li>UX Research</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- SECCIÓN 02 — karfi 02 — User Personas / texto izq, imagen der -->
+    <div class="case-section">
+      <div class="col-left">
+        <p class="section-label">Research</p>
+        <h2 class="section-title">Getting to know the two sides of the product.</h2>
+        <p class="section-body">
+          Karfi serves two distinct users — the client looking for a convenient, trustworthy beauty service, and the nail professional seeking a platform to grow their clientele. We built detailed user personas for both, mapping demographics, behaviors, pain points, and goals.
+        </p>
+        <p class="section-body">
+          Understanding both sides was essential to designing a product that works for everyone in the equation.
+        </p>
+      </div>
+      <div class="col-right col-img">
+        <img src="assets/cases/karfi/karfi 02.png" alt="Karfi — user personas" />
+      </div>
+    </div>
+
+    <!-- SECCIÓN 03 — karfi 03 — Entrevistas / imagen izq, texto der -->
+    <div class="case-section">
+      <div class="col-left col-img">
+        <img src="assets/cases/karfi/karfi 03.png" alt="Karfi — interviews and use cases" />
+      </div>
+      <div class="col-right">
+        <p class="section-label">Interviews & Use Cases</p>
+        <h2 class="section-title">Real people. Real services. Real data.</h2>
+        <p class="section-body">
+          To gather honest, grounded insights, we recruited people already on the team and had them book and experience Karfi's service firsthand. This gave us direct access to real user behavior — not assumptions.
+        </p>
+        <p class="section-body">
+          The interviews uncovered friction points, expectations, and moments of delight that shaped the product's core flows and informed every major design decision that followed.
+        </p>
+      </div>
+    </div>
+
+    <!-- SECCIÓN 04 — karfi 04 — Wireframes / texto izq, imagen der -->
+    <div class="case-section">
+      <div class="col-left">
+        <p class="section-label">Design Process</p>
+        <h2 class="section-title">From rough sketches to a refined handoff.</h2>
+        <p class="section-body">
+          The design process started with low-fidelity wireframes — fast, disposable, and focused on structure over aesthetics. This allowed us to validate flows and layouts early, before committing to any visual direction.
+        </p>
+        <p class="section-body">
+          From those rough frames, we iterated through progressively higher fidelity until the designs were tight, tested, and ready for development handoff.
+        </p>
+      </div>
+      <div class="col-right col-img img-contained">
+        <img src="assets/cases/karfi/karfi 04.png" alt="Karfi — wireframes" />
+      </div>
+    </div>
+
+    <!-- SECCIÓN 05 — karfi 05 — Producto final / imagen izq, texto der -->
+    <div class="case-section">
+      <div class="col-left col-img">
+        <img src="assets/cases/karfi/karfi 05.png" alt="Karfi — web and app final" />
+      </div>
+      <div class="col-right">
+        <p class="section-label">Web & App</p>
+        <h2 class="section-title">The full product — designed to work beautifully on every screen.</h2>
+        <p class="section-body">
+          The final deliverable was a complete digital ecosystem: a marketing and booking web platform, and a native app for both iOS and Android. The web experience was built to attract and convert new clients, while the app focused on the end-to-end service flow — booking, tracking, and managing appointments with ease.
+        </p>
+        <p class="section-body">
+          Every screen was designed with the same principle: beauty services should feel as polished as the service itself.
+        </p>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="case-footer">
+    <a href="cases.html">← Back to work</a>
+    <a href="dondefon.html">Next case →</a>
+  </footer>
+
+  <script>
+    const u = 'hola';
+    const d = 'frankmina.com';
+    const mailto = 'mailto:' + u + '@' + d;
+    document.getElementById('nav-contact').href = mailto;
+    document.getElementById('mobile-contact').href = mailto;
+
+    const hamburger = document.getElementById('hamburger');
+    const mobileMenu = document.getElementById('mobileMenu');
+
+    hamburger.addEventListener('click', () => {
+      hamburger.classList.toggle('open');
+      mobileMenu.classList.toggle('open');
+      document.body.style.overflow = mobileMenu.classList.contains('open') ? 'hidden' : '';
+    });
+
+    function closeMenu() {
+      hamburger.classList.remove('open');
+      mobileMenu.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+  </script>
+
+</body>
+</html>
