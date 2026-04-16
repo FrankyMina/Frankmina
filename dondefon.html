@@ -324,6 +324,9 @@
         align-items: flex-start;
       }
     }
+    /* ── Page transition ── */
+    body { opacity: 0; transition: opacity 0.35s ease; }
+    body.loaded { opacity: 1; }
   </style>
 </head>
 <body>
@@ -416,29 +419,9 @@
       </div>
     </div>
 
-    <!-- SECCIÓN 04 — Texto izq, imagen der -->
+    <!-- SECCIÓN 05 — Texto izq, imagen der -->
     <div class="case-section">
       <div class="col-left">
-        <p class="section-label">Competitive Analysis</p>
-        <h2 class="section-title">Finding the gap the market wasn't filling.</h2>
-        <p class="section-body">
-          Existing solutions had critical blind spots: payment and movement sections functioned — but barely. Information was accurate, yet rarely clear or consistent.
-        </p>
-        <p class="section-body">
-          In financial contexts, that gap is fatal: <strong>when the user doesn't understand, they disengage.</strong> This insight shaped the entire design direction — clarity and confidence at every touchpoint became non-negotiable principles for DondéFon.
-        </p>
-      </div>
-      <div class="col-right col-img">
-        <img src="assets/cases/dondefon/dondefon 04.png" alt="DondéFon — competitive analysis" />
-      </div>
-    </div>
-
-    <!-- SECCIÓN 05 — Imagen izq, texto der -->
-    <div class="case-section">
-      <div class="col-left col-img img-contained">
-        <img src="assets/cases/dondefon/dondefon 05.png" alt="DondéFon — user flows and service blueprint" />
-      </div>
-      <div class="col-right">
         <p class="section-label">User Flows & Service Blueprint</p>
         <h2 class="section-title">Mapping every step — digital and physical.</h2>
         <p class="section-body">
@@ -448,11 +431,17 @@
           In parallel, we developed a Service Blueprint to be deployed across Dondé's physical branches — defining how staff would interact with the platform at each step, aligning the digital experience with the in-store reality.
         </p>
       </div>
+      <div class="col-right col-img">
+        <img src="assets/cases/dondefon/dondefon 05.png" alt="DondéFon — user flows and service blueprint" />
+      </div>
     </div>
 
-    <!-- SECCIÓN 06 — Texto izq, imagen der -->
+    <!-- SECCIÓN 06 — Imagen izq, texto der -->
     <div class="case-section">
-      <div class="col-left">
+      <div class="col-left col-img">
+        <img src="assets/cases/dondefon/dondefon 06.png" alt="DondéFon — iterations and handoff" />
+      </div>
+      <div class="col-right">
         <p class="section-label">Iterations & Handoff</p>
         <h2 class="section-title">Tested, refined, and ready for development.</h2>
         <p class="section-body">
@@ -462,17 +451,11 @@
           By rigorously following the research process, we were able to validate assumptions, eliminate guesswork, and build a solid foundation for development — creating a product that resonates with users and meets real market demands.
         </p>
       </div>
-      <div class="col-right col-img">
-        <img src="assets/cases/dondefon/dondefon 06.png" alt="DondéFon — iterations and handoff" />
-      </div>
     </div>
 
-    <!-- SECCIÓN 07 — Imagen izq, texto der -->
+    <!-- SECCIÓN 07 — Texto izq, imagen der -->
     <div class="case-section">
-      <div class="col-left col-img img-contained">
-        <img src="assets/cases/dondefon/dondefon 07.png" alt="DondéFon — creating the logo" />
-      </div>
-      <div class="col-right">
+      <div class="col-left">
         <p class="section-label">Creating the Logo</p>
         <h2 class="section-title">Built from scratch — identity as a creative challenge.</h2>
         <p class="section-body">
@@ -482,11 +465,17 @@
           The process was genuinely creative — sketching, iterating, and refining until the logo communicated trust, accessibility, and a fresh energy that distinguished DondéFon from its competitors. Every color, weight, and form was a deliberate decision.
         </p>
       </div>
+      <div class="col-right col-img">
+        <img src="assets/cases/dondefon/dondefon 07.png" alt="DondéFon — creating the logo" />
+      </div>
     </div>
 
-    <!-- SECCIÓN 08 — Texto izq, imagen der -->
+    <!-- SECCIÓN 08 — Imagen izq, texto der -->
     <div class="case-section">
-      <div class="col-left">
+      <div class="col-left col-img">
+        <img src="assets/cases/dondefon/dondefon 08.png" alt="DondéFon — app store media" />
+      </div>
+      <div class="col-right">
         <p class="section-label">App Store Media</p>
         <h2 class="section-title">Designed for the shelves of Google Play & App Store.</h2>
         <p class="section-body">
@@ -496,17 +485,11 @@
           Every image was crafted to communicate the app's value at a glance — because in a crowded marketplace, the store listing is the first impression.
         </p>
       </div>
-      <div class="col-right col-img">
-        <img src="assets/cases/dondefon/dondefon 08.png" alt="DondéFon — app store media" />
-      </div>
     </div>
 
-    <!-- SECCIÓN 09 — Imagen izq, texto der -->
+    <!-- SECCIÓN 09 — Texto izq, imagen der -->
     <div class="case-section">
-      <div class="col-left col-img img-contained">
-        <img src="assets/cases/dondefon/dondefon 09.png" alt="DondéFon — business rules" />
-      </div>
-      <div class="col-right">
+      <div class="col-left">
         <p class="section-label">Creating the Business Rules</p>
         <h2 class="section-title">The rules that make the product work in the real world.</h2>
         <p class="section-body">
@@ -515,6 +498,9 @@
         <p class="section-body">
           These materials bridged the gap between the digital product and the physical experience — ensuring that every customer interaction, whether on the app or in the store, felt consistent, clear, and trustworthy.
         </p>
+      </div>
+      <div class="col-right col-img">
+        <img src="assets/cases/dondefon/dondefon 09.png" alt="DondéFon — business rules" />
       </div>
     </div>
 
@@ -547,6 +533,20 @@
       mobileMenu.classList.remove('open');
       document.body.style.overflow = '';
     }
+    document.addEventListener('DOMContentLoaded', () => {
+      requestAnimationFrame(() => document.body.classList.add('loaded'));
+    });
+    document.querySelectorAll('a[href]').forEach(link => {
+      const href = link.getAttribute('href');
+      if (!href || href.startsWith('#') || href.startsWith('mailto') ||
+          href.startsWith('http') || href.startsWith('tel') ||
+          link.target === '_blank') return;
+      link.addEventListener('click', e => {
+        e.preventDefault();
+        document.body.classList.remove('loaded');
+        setTimeout(() => { window.location.href = href; }, 350);
+      });
+    });
   </script>
 
 </body>

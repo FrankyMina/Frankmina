@@ -242,6 +242,9 @@
       .cases-row-1,
       .cases-row-2 { grid-template-columns: 1fr; gap: 40px; margin-bottom: 40px; }
     }
+    /* ── Page transition ── */
+    body { opacity: 0; transition: opacity 0.35s ease; }
+    body.loaded { opacity: 1; }
   </style>
 </head>
 <body>
@@ -374,6 +377,20 @@
       mobileMenu.classList.remove('open');
       document.body.style.overflow = '';
     }
+    document.addEventListener('DOMContentLoaded', () => {
+      requestAnimationFrame(() => document.body.classList.add('loaded'));
+    });
+    document.querySelectorAll('a[href]').forEach(link => {
+      const href = link.getAttribute('href');
+      if (!href || href.startsWith('mailto') ||
+          href.startsWith('http') || href.startsWith('tel') ||
+          link.target === '_blank') return;
+      link.addEventListener('click', e => {
+        e.preventDefault();
+        document.body.classList.remove('loaded');
+        setTimeout(() => { window.location.href = href; }, 350);
+      });
+    });
   </script>
 </body>
 </html>
