@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Branding & Social — Frank Miranda</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=DM+Mono:wght@300;400&family=DM+Sans:wght@300;400;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --gold:    #c8a94a;
+      --subtle:  #999590;
+      --divider: #e8e6e2;
+      --pad:     48px;
+    }
+
+    html, body {
+      background: #0a0a08;
+      font-family: 'DM Sans', sans-serif;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+      height: 100%;
+    }
+
+    /* ════════════════════════
+       NAV — transparente sobre foto
+    ════════════════════════ */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 28px var(--pad);
+      background: transparent;
+    }
+
+    .nav-logo img {
+      height: 28px;
+      width: auto;
+      opacity: 0.95;
+    }
+
+    .nav-links { display: flex; gap: 36px; list-style: none; }
+
+    .nav-links a {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      font-weight: 300;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(240,237,230,0.55);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: #f0ede6; }
+
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      padding: 4px;
+      background: none;
+      border: none;
+    }
+
+    .hamburger span {
+      display: block;
+      width: 22px;
+      height: 1px;
+      background: #f0ede6;
+      transition: transform 0.3s ease, opacity 0.3s ease;
+      transform-origin: center;
+    }
+
+    .hamburger.open span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
+
+    .mobile-menu {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      z-index: 99;
+      background: #0a0a08;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 40px;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .mobile-menu.open { display: flex; opacity: 1; }
+
+    .mobile-menu a {
+      font-family: 'Playfair Display', serif;
+      font-size: 36px;
+      color: rgba(240,237,230,0.5);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .mobile-menu a:hover { color: #f0ede6; }
+
+    /* ════════════════════════
+       HERO — ocupa toda la pantalla
+    ════════════════════════ */
+    .construction-hero {
+      position: relative;
+      width: 100%;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    .construction-hero img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center 20%;
+      display: block;
+      filter: brightness(0.72);
+    }
+
+    /* Gradiente superior — para que back link y nav sean legibles */
+    .construction-hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        to bottom,
+        rgba(10,10,8,0.55) 0%,
+        rgba(10,10,8,0.0) 25%,
+        rgba(10,10,8,0.0) 55%,
+        rgba(10,10,8,0.75) 80%,
+        rgba(10,10,8,0.95) 100%
+      );
+      z-index: 1;
+    }
+
+    /* Back link — arriba a la izquierda dentro de la foto */
+    .back-link {
+      position: absolute;
+      top: 100px;
+      left: var(--pad);
+      z-index: 2;
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(240,237,230,0.55);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: color 0.2s;
+    }
+
+    .back-link:hover { color: #f0ede6; }
+
+    /* Texto — abajo dentro de la foto */
+    .construction-caption {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      z-index: 2;
+      padding: 56px var(--pad);
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .construction-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.20em;
+      text-transform: uppercase;
+      color: var(--gold);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .construction-label::before {
+      content: '';
+      display: block;
+      width: 20px;
+      height: 1px;
+      background: var(--gold);
+    }
+
+    .pulse-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--gold);
+      display: inline-block;
+      animation: pulse 2.4s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50%       { opacity: 0.3; transform: scale(0.7); }
+    }
+
+    .construction-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(32px, 5vw, 56px);
+      font-weight: 400;
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      color: #f0ede6;
+    }
+
+    .construction-title em {
+      font-style: italic;
+      color: var(--gold);
+    }
+
+    .construction-sub {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 15px;
+      font-weight: 300;
+      color: rgba(240,237,230,0.5);
+      max-width: 480px;
+      line-height: 1.7;
+    }
+
+    /* ════════════════════════
+       RESPONSIVE
+    ════════════════════════ */
+    @media (max-width: 768px) {
+      :root { --pad: 24px; }
+      nav { padding: 20px var(--pad); }
+      .nav-links { display: none; }
+      .hamburger { display: flex; }
+      .back-link { top: 80px; }
+      .construction-caption { padding: 40px var(--pad); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a class="nav-logo" href="cases.html">
+      <img src="FM_logo_bco.png" alt="Frank Miranda" />
+    </a>
+    <ul class="nav-links">
+      <li><a href="cases.html">Cases</a></li>
+      <li><a href="index.html#about">About</a></li>
+      <li><a href="#" id="nav-contact">Contact</a></li>
+    </ul>
+    <button class="hamburger" id="hamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="cases.html" onclick="closeMenu()">Cases</a>
+    <a href="index.html#about" onclick="closeMenu()">About</a>
+    <a href="#" id="mobile-contact" onclick="closeMenu()">Contact</a>
+  </div>
+
+  <!-- HERO — foto completa con todo dentro -->
+  <div class="construction-hero">
+
+    <img src="assets/cases/graphic-design/frank_desk.png" alt="Frank Miranda — work in progress" />
+
+    <!-- Back link arriba izquierda -->
+    <a href="cases.html" class="back-link">← Back to work</a>
+
+    <!-- Leyenda abajo -->
+    <div class="construction-caption">
+      <p class="construction-label">
+        <span class="pulse-dot"></span>
+        Work in progress
+      </p>
+      <h2 class="construction-title">Still crafting<br><em>something great.</em></h2>
+      <p class="construction-sub">
+        Branding, social assets, and visual identity work — currently being curated. Check back soon.
+      </p>
+    </div>
+
+  </div>
+
+  <script>
+    const u = 'hola';
+    const d = 'frankmina.com';
+    const mailto = 'mailto:' + u + '@' + d;
+    document.getElementById('nav-contact').href = mailto;
+    document.getElementById('mobile-contact').href = mailto;
+
+    const hamburger = document.getElementById('hamburger');
+    const mobileMenu = document.getElementById('mobileMenu');
+
+    hamburger.addEventListener('click', () => {
+      hamburger.classList.toggle('open');
+      mobileMenu.classList.toggle('open');
+      document.body.style.overflow = mobileMenu.classList.contains('open') ? 'hidden' : '';
+    });
+
+    function closeMenu() {
+      hamburger.classList.remove('open');
+      mobileMenu.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+  </script>
+
+</body>
+</html>
