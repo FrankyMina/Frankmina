@@ -123,6 +123,12 @@
       filter: brightness(0.7);
     }
 
+    @media (max-width: 768px) {
+      .hero-bg img {
+        object-position: 92% 15%;
+      }
+    }
+
     .hero-bg::after {
       content: '';
       position: absolute;
@@ -741,7 +747,7 @@
     </a>
     <ul class="nav-links">
       <li><a href="cases.html">Cases</a></li>
-      <li><a href="index.html#about">About</a></li>
+      <li><a href="#about" class="js-scroll">About</a></li>
       <li><button class="js-letstalk" id="navLetstalk">Let's talk</button></li>
 
     </ul>
@@ -753,7 +759,7 @@
   <!-- MOBILE MENU -->
   <div class="mobile-menu" id="mobileMenu">
     <a href="cases.html" onclick="closeMenu()">Cases</a>
-    <a href="index.html#about" onclick="closeMenu()">About</a>
+    <a href="#about" class="js-scroll" onclick="closeMenu()">About</a>
     <button class="js-letstalk" onclick="closeMenu()">Let's talk</button>
   </div>
 
@@ -1009,6 +1015,17 @@
     }
 
     setTimeout(() => { nextWord(); setInterval(nextWord, 2500); }, 2500);
+
+    /* ── Scroll suave para links de anclaje ── */
+    document.querySelectorAll('a.js-scroll').forEach(link => {
+      link.addEventListener('click', e => {
+        const target = document.querySelector(link.getAttribute('href'));
+        if (target) {
+          e.preventDefault();
+          target.scrollIntoView({ behavior: 'smooth' });
+        }
+      });
+    });
   </script>
 </body>
 </html>
